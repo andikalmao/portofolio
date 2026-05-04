@@ -40,7 +40,9 @@ ul {
 /* menu text orientation time */
 .menu1 {
     position: relative;
+    display: block;
     transform: perspective(240px) rotateZ(-14deg) rotateX(12deg);
+    /* transform:none; */
     margin-bottom: 0px;
     margin-left: 70px;
     z-index: 4;
@@ -62,7 +64,7 @@ ul {
     margin-left: 90px;
     transform: perspective(220px) rotateZ(8deg) rotateY(-2deg) rotateX(-8deg);
     z-index: 3;
-    margin-bottom: -8px;
+    margin-bottom: -19px;
     color: #0CC9FF;
 }
 
@@ -74,6 +76,7 @@ ul {
     z-index: 4;
 }
 
+
 .menu5 {
     position: relative;
     transform: perspective(240px) rotateZ(19deg) rotateX(12deg);
@@ -82,13 +85,134 @@ ul {
     color: #0CC9FF;
 }
 
+
+/* overlay gaje asu biadab */
+/* .text.base {
+    position: relative;
+    z-index: 1;
+}
+.text.overlay {
+    position: absolute;
+    top: -10px;
+    left: -25px;
+    width: 100%;
+    height: 100%;
+    color: red;
+    z-index: 3;
+    background-color: yellow;
+    top: -10px;
+    left: -25px;
+    transform: skewX(-20deg);
+    clip-path: polygon(0 100%, 100% 0, 100% 1%, 90% 100%, 0 100%);
+    opacity: 0.5;
+} */
+
+
+[class^="menu"]{
+    cursor:default;
+}
+
+
+
+.text.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    color: #FF0002;
+    width: 100%;
+
+    clip-path: polygon(96% -13%, 79% 100%, 0 100%, 0 76%, 36% 43%);
+}
+
+
+
+/* end overlay */
+
+.backrect {
+    position: absolute;
+    background: white;
+    left: -25px;
+    top: -10px;
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+    
+    transform: skewX(-20deg);
+    clip-path: polygon(0 100%, 100% 0, 100% 1%, 90% 100%, 0 100%);
+}
+.secbackrect {
+    position: absolute;
+    background: #E95CD1;
+    left: -20px;
+    top: -5px;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    transform: skewX(-20deg) rotate(1.3deg);
+    clip-path: polygon(0 100%, 100% 0, 100% 1%, 90% 100%, 0 100%);
+}
+
+.text {
+    position: relative;
+    z-index: 2;
+}
+
 /* end of menu tilt and stuff idk */
 
 
 
 /* frames and animations */
 
-/* .fade-in {
+[class^="menu"] {
+    transition: transform 0.3s ease, z-index 0.3s;
+}
+
+.backrect,
+.secbackrect,
+.text.overlay {
+    opacity: 0;
+    transition: 0.2 s cubic-bezier(0.2, 1.8, 0.4, 1);
+}
+
+[class^="menu"]:hover .backrect,
+[class^="menu"]:hover .secbackrect,
+[class^="menu"]:hover .text.overlay{
+    opacity: 1;
+}
+
+[class^="menu"]:hover {
+    color: black;
+}
+
+.menu1:hover {
+    transform: perspective(240px) rotateZ(-14deg) rotateX(12deg) scale(1.1);
+    z-index: 10;
+}
+
+.menu2:hover {
+    transform: perspective(240px) rotateY(-20deg) rotateX(4deg) rotate(-5deg) scale(1.1);
+    opacity: 1;
+    z-index: 10;
+}
+
+.menu3:hover {
+    transform: perspective(220px) rotateZ(8deg) rotateY(-2deg) rotateX(-8deg) scale(1.1);
+    z-index: 10;
+}
+
+.menu4:hover {
+    transform: perspective(240px) rotateY(-10deg) rotateX(4deg) rotateZ(5deg) scale(1.1);
+    z-index: 10;
+}
+
+.menu5:hover {
+    transform: perspective(240px) rotateZ(19deg) rotateX(12deg) scale(1.1);
+    z-index: 10;
+}
+
+.fade-in {
     opacity: 0;
     animation-name : fading;
     animation-iteration-count : 1;
@@ -106,4 +230,4 @@ ul {
     100% {
         opacity : 1;
     }
-} */
+}

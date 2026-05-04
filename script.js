@@ -42,3 +42,5 @@ function restart() {
     audios.play();
 
 }
+
+audios.volume = 0.2;
