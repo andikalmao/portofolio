@@ -5,6 +5,14 @@ const hover = document.getElementById("hovering")
 const click = document.getElementById("clicking")
 const menus = document.querySelectorAll('[class^="menu"]')
 
+document.querySelector(".menu1").onclick = () => switchTo("skills-menu")
+document.querySelector(".menu2").onclick = () => switchTo("projects-menu")
+document.querySelector(".menu3").onclick = () => switchTo("contact-menu")
+document.querySelector(".menu5").onclick = () => switchTo("about-menu")
+document.querySelector(".menu4").onclick = () => {
+  window.open("https://github.com/andikalmao");
+};
+
 
 
 audio.volume = 0.5
@@ -63,3 +71,28 @@ menus.forEach(menu => {
         click.play();
     });
 });
+
+// page work
+
+const screens = document.querySelectorAll(".screen");
+
+function switchTo(id) {
+    screens.forEach(s => {
+        s.classList.remove("active");
+        s.classList.add("hidden");
+    });
+
+    const target = document.getElementById(id);
+    target.classList.remove("hidden");
+    target.classList.add("active");
+}
+
+// const cards = document.querySelectorAll(".card");
+
+// cards.forEach(card => {
+//   card.addEventListener("click", () => {
+//     cards.forEach(c => c.classList.remove("active"));
+//     card.classList.add("active");
+
+//   });
+// });

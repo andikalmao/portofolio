@@ -4,6 +4,7 @@ body {
     font-style: normal;
     display: flex;
     height: 100%;
+    overflow: hidden;
 }
 
 .fullscreen {
@@ -12,7 +13,7 @@ body {
     bottom: 0;
     min-width: 100%;
     min-height: 100%;
-   
+
 }
 
 .nav {
@@ -26,7 +27,9 @@ body {
 }
 
 
-h2, li, ul {
+h2,
+li,
+ul {
     margin: 0;
     line-height: 1;
 
@@ -46,7 +49,7 @@ ul {
     margin-bottom: 0px;
     margin-left: 70px;
     z-index: 4;
-    
+
 }
 
 .menu2 {
@@ -72,7 +75,7 @@ ul {
     position: relative;
     margin-left: 40px;
     transform: perspective(240px) rotateY(-10deg) rotateX(4deg) rotateZ(5deg);
-    margin-bottom: 14px ;
+    margin-bottom: 14px;
     z-index: 4;
 }
 
@@ -85,6 +88,41 @@ ul {
     color: #0CC9FF;
 }
 
+
+/* cards */
+
+.skill-cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  
+}
+
+.card {
+  width: 270px;
+  height: 390px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-20px) scale(1.1);
+  box-shadow: 0 0 20px cyan;
+}
+
+.skill-cards:hover .card:not(:hover) {
+  transform: scale(0.9);
+  opacity: 0.5;
+}
+
+.card.active {
+  transform: scale(1.2);
+  z-index: 5;
+}
+
+/* end of cards */
 
 /* overlay gaje asu biadab */
 /* .text.base {
@@ -108,8 +146,8 @@ ul {
 } */
 
 
-[class^="menu"]{
-    cursor:default;
+[class^="menu"] {
+    cursor: default;
 }
 
 
@@ -138,10 +176,11 @@ ul {
     height: 100%;
 
     z-index: 1;
-    
+
     transform: skewX(-20deg);
     clip-path: polygon(0 100%, 100% 0, 100% 1%, 90% 100%, 0 100%);
 }
+
 .secbackrect {
     position: absolute;
     background: #E95CD1;
@@ -173,12 +212,12 @@ ul {
 .secbackrect,
 .text.overlay {
     opacity: 0;
-    transition: 0.2 s cubic-bezier(0.2, 1.8, 0.4, 1);
+    transition: 0.2s cubic-bezier(0.2, 1.8, 0.4, 1);
 }
 
 [class^="menu"]:hover .backrect,
 [class^="menu"]:hover .secbackrect,
-[class^="menu"]:hover .text.overlay{
+[class^="menu"]:hover .text.overlay {
     opacity: 1;
 }
 
@@ -214,20 +253,56 @@ ul {
 
 .fade-in {
     opacity: 0;
-    animation-name : fading;
-    animation-iteration-count : 1;
-    animation-timing-function : ease-in;
-    animation-duration : 1.5s;
+    animation-name: fading;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 1.5s;
     animation-delay: 2s;
     animation-fill-mode: forwards;
 }
 
 @keyframes fading {
     0% {
-        opacity : 0;
-        
+        opacity: 0;
+
     }
+
     100% {
-        opacity : 1;
+        opacity: 1;
     }
+}
+
+/* end of keyframes */
+
+
+/* page work */
+
+.screen {
+    position: absolute;
+    inset: 0;
+    transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.active {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 2;
+}
+
+.hidden {
+    opacity: 0;
+    transform: translateX(100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+
+
+/*  */
+
+#all {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
 }
