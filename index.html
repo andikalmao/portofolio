@@ -4,32 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wife</title>
+    <title>Persona 3 Reload Portfolio</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- Google Fonts for Persona-like aesthetic: Outfit for bold sans, Orbitron for tech numbers, and Bowlby One for main titles -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Outfit:wght@400;600;800;900&family=Orbitron:wght@700;900&display=swap"
+        rel="stylesheet">
+
     <link rel="preload" href="./assets/audio/WhenTheMoon'sReachingOutStars.mp3" as="audio">
     <link rel="preload" href="./assets/makoto.mp4" as="video">
     <link rel="preload" href="./assets/makoto_loop.mp4" as="video">
     <link rel="preload" href="./assets/audio/deck_ui_navigation.wav" as="audio">
     <link rel="preload" href="./assets/audio/deck_ui_default_activation.wav" as="audio">
-
 </head>
 
 <body>
+    <!-- Background Music and SFX -->
     <audio autoplay preload="auto" loop id="audios">
         <source src="./assets/audio/WhenTheMoon'sReachingOutStars.mp3" type="audio/mpeg">
     </audio>
     <audio id="hovering" preload="auto" src="./assets/audio/deck_ui_navigation.wav"></audio>
     <audio id="clicking" preload="auto" src="./assets/audio/deck_ui_default_activation.wav"></audio>
 
-    </audio>
+    <!-- Sparkle Canvas Overlay -->
+    <canvas id="sparkle-canvas"></canvas>
+
+    <!-- Fullscreen Page transition wipe overlay -->
+    <div id="page-transition-overlay" class="page-transition-overlay"></div>
+
+
+
     <div id="all">
+        <!-- Main menu background videos -->
         <video class="fullscreen" autoplay preload="auto" id="intro"></video>
         <video class="fullscreen" loop preload="auto" id="loop"></video>
-        <section>
-            <nav class="start " id="main_menu">
+
+        <!-- PAGE 1 — MAIN MENU -->
+        <section class="screen active" id="main-menu-screen">
+            <nav class="start" id="main_menu">
                 <ul class="nav fade-in">
                     <li>
-                        <h2 class="menu1">
+                        <h2 class="menu1" data-screen="skills-menu">
                             <span class="backrect"></span>
                             <span class="secbackrect"></span>
                             <span class="text base">SKILLS</span>
@@ -37,7 +53,7 @@
                         </h2>
                     </li>
                     <li>
-                        <h2 class="menu2">
+                        <h2 class="menu2" data-screen="projects-menu">
                             <span class="backrect"></span>
                             <span class="secbackrect"></span>
                             <span class="text base">PROJECTS</span>
@@ -45,7 +61,7 @@
                         </h2>
                     </li>
                     <li>
-                        <h2 class="menu3">
+                        <h2 class="menu3" data-screen="contact-menu">
                             <span class="backrect"></span>
                             <span class="secbackrect"></span>
                             <span class="text base">CONTACT</span>
@@ -53,7 +69,7 @@
                         </h2>
                     </li>
                     <li>
-                        <h2 class="menu4">
+                        <h2 class="menu4" data-screen="github-menu">
                             <span class="backrect"></span>
                             <span class="secbackrect"></span>
                             <span class="text base">GITHUB</span>
@@ -61,7 +77,7 @@
                         </h2>
                     </li>
                     <li>
-                        <h2 class="menu5">
+                        <h2 class="menu5" data-screen="about-menu">
                             <span class="backrect"></span>
                             <span class="secbackrect"></span>
                             <span class="text base">ABOUT ME</span>
@@ -73,30 +89,395 @@
         </section>
 
         <section class="screen hidden" id="skills-menu">
-            <div>
-                <div class="container-skills">
-                    <h1>Back</h1>
-                    <div class="skill-cards">
-                        <div class="cardc">
-                            <img class="card" src="./assets/cards/arcana_hunger.jpg">
+            <div class="game-background">
+                <div class="angled-shape shape-1"></div>
+                <div class="angled-shape shape-2"></div>
+            </div>
+            <div class="subpage-container">
+                <button class="p3-back-btn"><span>◀</span> BACK</button>
+                <h1 class="subpage-title italic-title">MY SKILLS</h1>
+
+                <div class="skill-cards">
+                    <div class="card-wrapper" data-index="0" data-category="Languages" data-badge="Combat Skills"
+                        data-skills='["JavaScript", "PHP", "Python"]'>
+                        <span class="corner-num top-left">3</span>
+                        <span class="corner-num bottom-right">3</span>
+                        <img class="card" src="./assets/cards/arcana_hunger.jpg" alt="Combat Skills">
+                        <div class="card-glow"></div>
+                        <div class="card-caption">Combat Skills</div>
+                    </div>
+
+                    <!-- Card 2: Frameworks (Treasure Skills) -->
+                    <div class="card-wrapper" data-index="1" data-category="Frameworks" data-badge="Treasure Skills"
+                        data-skills='["Laravel", "React", "Next.js", "Node.js"]'>
+                        <span class="corner-num top-left">8</span>
+                        <span class="corner-num bottom-right">8</span>
+                        <img class="card" src="./assets/cards/arcana_judgement.jpg" alt="Treasure Skills">
+                        <div class="card-glow"></div>
+                        <div class="card-caption">Treasure Skills</div>
+                    </div>
+
+                    <!-- Card 3: Tools (Support Skills) -->
+                    <div class="card-wrapper" data-index="2" data-category="Tools" data-badge="Support Skills"
+                        data-skills='["Git", "Docker", "VS Code", "Figma", "Postman"]'>
+                        <span class="corner-num top-left">5</span>
+                        <span class="corner-num bottom-right">5</span>
+                        <img class="card" src="./assets/cards/arcana_strength.jpg" alt="Support Skills">
+                        <div class="card-glow"></div>
+                        <div class="card-caption">Support Skills</div>
+                    </div>
+
+                    <!-- Card 4: Databases (Nature Skills) -->
+                    <div class="card-wrapper" data-index="3" data-category="Databases" data-badge="Nature Skills"
+                        data-skills='["PostgreSQL", "MySQL"]'>
+                        <span class="corner-num top-left">10</span>
+                        <span class="corner-num bottom-right">10</span>
+                        <img class="card" src="./assets/cards/arcana_thechariot.png" alt="Nature Skills">
+                        <div class="card-glow"></div>
+                        <div class="card-caption">Nature Skills</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Pop-out detail overlay -->
+            <div id="card-popout-overlay" class="card-popout-overlay">
+                <div class="popout-background-glow"></div>
+                <div class="popout-flex-container">
+                    <div class="popout-cards-row">
+                        <!-- Flanking minor card left -->
+                        <div class="minor-card flank-left">
+                            <span class="minor-num">8</span>
+                            <div class="minor-suit">♦</div>
                         </div>
-                        <div class="cardc">
-                            <img class="card" src="./assets/cards/arcana_judgement.jpg">
+
+                        <!-- Main pop-out card -->
+                        <div class="main-popout-card-holder">
+                            <span class="popout-corner-num top-left">3</span>
+                            <span class="popout-corner-num bottom-right">3</span>
+                            <img id="popout-main-img" src="" alt="Selected Skill Card">
                         </div>
-                        <div class="cardc">
-                            <img class="card" src="./assets/cards/arcana_strength.jpg">
+
+                        <!-- Flanking minor card right -->
+                        <div class="minor-card flank-right">
+                            <span class="minor-num">8</span>
+                            <div class="minor-suit">♠</div>
                         </div>
-                        <div class="cardc">
-                            <img class="card" src="./assets/cards/arcana_thechariot.png">
-                        </div>
-                        
+                    </div>
+
+                    <!-- Selected details info at bottom -->
+                    <div class="popout-details-info">
+                        <h2 class="popout-header-text">SKILL</h2>
+                        <div class="popout-badge-pill" id="popout-category-pill">Combat Skills</div>
+                        <ul class="popout-bullets-list" id="popout-skills-list">
+                            <li>JavaScript</li>
+                            <li>PHP</li>
+                            <li>Python</li>
+                            <li>C++</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Draw 2 Indicator -->
+                <div class="draw-indicator-box">
+                    <span class="draw-label-text">Draw</span>
+                    <span class="draw-number-text" id="draw-val">2</span>
+                </div>
+
+                <!-- ARCANA BURST minibar bottom-left -->
+                <div class="arcana-burst-mini-bar">
+                    <span class="mini-bar-title">ARCANA BURST</span>
+                    <div class="mini-bar-cards">
+                        <div class="mini-bar-card-icon active"></div>
+                        <div class="mini-bar-card-icon active"></div>
+                        <div class="mini-bar-card-icon"></div>
+                        <div class="mini-bar-card-icon"></div>
+                        <div class="mini-bar-card-icon"></div>
+                    </div>
+                </div>
+
+                <!-- Game controls hint bottom-right -->
+                <div class="controls-hint-box">
+                    <span class="hint-item"><span class="hint-btn">⊕</span> Select Card</span>
+                    <span class="hint-item"><span class="hint-btn">A</span> Confirm</span>
+                    <span class="hint-item" id="popout-cancel-btn"><span class="hint-btn">B</span> Cancel</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 3 — PROJECTS PAGE -->
+        <section class="screen hidden" id="projects-menu">
+            <div class="subpage-container">
+                <button class="p3-back-btn"><span>◀</span> BACK</button>
+                <h1 class="subpage-title italic-title">PROJECTS</h1>
+
+                <div class="projects-grid">
+                    <!-- Project 1 -->
+                    <div class="project-card" data-title="Aigis Hub" data-tech="Laravel / Livewire / MySQL"
+                        data-desc="A premium e-learning administrative database system that handles high concurrency, styled with beautiful cyber-blue visuals and full stats tracking.">
+                        <div class="project-card-slanted-bg"></div>
+                        <span class="project-card-num">01</span>
+                        <h3 class="project-card-title">Aigis Hub</h3>
+                        <p class="project-card-tech">Laravel / Livewire</p>
+                        <div class="project-card-sparkle"></div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="project-card" data-title="Tartarus Crawler" data-tech="Node.js / React / Socket.io"
+                        data-desc="A real-time multiplayer dungeon navigation dashboard showing active player positions, level generation details, and party health bars.">
+                        <div class="project-card-slanted-bg"></div>
+                        <span class="project-card-num">02</span>
+                        <h3 class="project-card-title">Tartarus Crawl</h3>
+                        <p class="project-card-tech">React / Node.js</p>
+                        <div class="project-card-sparkle"></div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="project-card" data-title="Evoker API" data-tech="Express / TypeScript / Redis"
+                        data-desc="A ultra-high throughput microservice system caching user confidant relationships and combat statistics using advanced Redis clustering.">
+                        <div class="project-card-slanted-bg"></div>
+                        <span class="project-card-num">03</span>
+                        <h3 class="project-card-title">Evoker API</h3>
+                        <p class="project-card-tech">TypeScript / Redis</p>
+                        <div class="project-card-sparkle"></div>
+                    </div>
+
+                    <!-- Project 4 -->
+                    <div class="project-card" data-title="Dark Hour Shop" data-tech="Next.js / Stripe / Tailwind"
+                        data-desc="A stunning e-commerce storefront utilizing server-side rendering for flawless SEO, custom cart management, and seamless payments.">
+                        <div class="project-card-slanted-bg"></div>
+                        <span class="project-card-num">04</span>
+                        <h3 class="project-card-title">Dark Hour Shop</h3>
+                        <p class="project-card-tech">Next.js / Stripe</p>
+                        <div class="project-card-sparkle"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Details Pop-out Overlay -->
+            <div id="project-popout-overlay" class="card-popout-overlay">
+                <div class="popout-background-glow"></div>
+                <div class="project-details-box">
+                    <h2 class="project-details-num" id="proj-detail-num">01</h2>
+                    <h1 class="project-details-title" id="proj-detail-title">Aigis Hub</h1>
+                    <div class="popout-badge-pill" id="proj-detail-tech"
+                        style="background:#f0c040; color:black; font-weight:800;">Laravel / Livewire</div>
+                    <p class="project-details-desc" id="proj-detail-desc">A premium e-learning administrative database
+                        system that handles high concurrency.</p>
+                    <div class="project-details-controls">
+                        <button class="project-visit-btn">VISIT SITE ↗</button>
+                        <button class="project-close-btn" id="proj-close-btn">CLOSE Ⓑ</button>
                     </div>
                 </div>
             </div>
         </section>
-        <section class="screen hidden" id="projects-menu"></section>
-        <section class="screen hidden" id="contact-menu"></section>
-        <section class="screen hidden" id="about-menu"></section>
+
+        <!-- PAGE 4 — ABOUT ME PAGE (Persona Status Screen) -->
+        <section class="screen hidden" id="about-menu">
+            <div class="subpage-container">
+                <button class="p3-back-btn"><span>◀</span> BACK</button>
+
+                <div class="status-screen-layout">
+                    <!-- Left: Character portrait area and levels -->
+                    <div class="status-left-panel">
+                        <div class="status-char-header">
+                            <h1 class="char-name">HERO</h1>
+                            <div class="char-level-box">
+                                <span class="char-level-label">LEVEL</span>
+                                <span class="char-level-value">99</span>
+                            </div>
+                        </div>
+
+                        <!-- HP & SP Bars resembling P3R battle menu / stats -->
+                        <div class="status-stats-bars">
+                            <div class="stat-bar-container">
+                                <div class="stat-bar-labels">
+                                    <span class="stat-bar-title font-bold">HP</span>
+                                    <span class="stat-bar-value font-orbitron">999 / 999</span>
+                                </div>
+                                <div class="stat-bar-fill-track">
+                                    <div class="stat-bar-fill-value hp-fill" style="width: 100%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="stat-bar-container">
+                                <div class="stat-bar-labels">
+                                    <span class="stat-bar-title font-bold">SP</span>
+                                    <span class="stat-bar-value font-orbitron">999 / 999</span>
+                                </div>
+                                <div class="stat-bar-fill-track">
+                                    <div class="stat-bar-fill-value sp-fill" style="width: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="status-character-portrait">
+                            <!-- Subtle dynamic outline shadow of the character inside the status screen -->
+                            <div class="portrait-slanted-card">
+                                <span class="portrait-card-tag">THE FOOL ARCANA</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Skills stats sliders -->
+                    <div class="status-right-panel">
+                        <h2 class="status-panel-title">CHARACTER PARAMETERS</h2>
+
+                        <div class="parameters-list">
+                            <div class="param-row">
+                                <span class="param-name">FRONTEND (AGI)</span>
+                                <div class="param-bar-track">
+                                    <div class="param-bar-fill" style="width: 90%;"></div>
+                                </div>
+                                <span class="param-num font-orbitron">90</span>
+                            </div>
+                            <div class="param-row">
+                                <span class="param-name">BACKEND (STR)</span>
+                                <div class="param-bar-track">
+                                    <div class="param-bar-fill" style="width: 95%;"></div>
+                                </div>
+                                <span class="param-num font-orbitron">95</span>
+                            </div>
+                            <div class="param-row">
+                                <span class="param-name">DATABASES (VIT)</span>
+                                <div class="param-bar-track">
+                                    <div class="param-bar-fill" style="width: 85%;"></div>
+                                </div>
+                                <span class="param-num font-orbitron">85</span>
+                            </div>
+                            <div class="param-row">
+                                <span class="param-name">UI / UX (DEX)</span>
+                                <div class="param-bar-track">
+                                    <div class="param-bar-fill" style="width: 80%;"></div>
+                                </div>
+                                <span class="param-num font-orbitron">80</span>
+                            </div>
+                            <div class="param-row">
+                                <span class="param-name">DEV OPS (LUK)</span>
+                                <div class="param-bar-track">
+                                    <div class="param-bar-fill" style="width: 75%;"></div>
+                                </div>
+                                <span class="param-num font-orbitron">75</span>
+                            </div>
+                        </div>
+
+                        <!-- Bio description block in status screen style -->
+                        <div class="status-bio-block">
+                            <h3 class="bio-title">ANALYSIS SUMMARY</h3>
+                            <p class="bio-text">A versatile Full-Stack Engineer wielding powerful development arcanas.
+                                Highly optimized for designing high-performance, interactive, and visually stunning web
+                                systems. Active skill includes Laravel, React, and cinematic CSS magic.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 5 — CONTACT PAGE (In-game Phone / Messenger UI) -->
+        <section class="screen hidden" id="contact-menu">
+            <div class="subpage-container">
+                <button class="p3-back-btn"><span>◀</span> BACK</button>
+
+                <div class="phone-ui-container">
+                    <div class="phone-screen">
+                        <!-- Top status bar -->
+                        <div class="phone-status-bar">
+                            <span class="phone-network">LTE 📶</span>
+                            <span class="phone-time-clock font-orbitron">12:00 PM</span>
+                            <span class="phone-battery">🔋 100%</span>
+                        </div>
+
+                        <!-- Chat contact name -->
+                        <div class="phone-contact-header">
+                            <div class="contact-avatar-icon"></div>
+                            <div class="contact-name-info">
+                                <h4 class="contact-full-name">Pharos</h4>
+                                <span class="contact-status-online">Online</span>
+                            </div>
+                        </div>
+
+                        <!-- Message List Area -->
+                        <div class="phone-messages-list" id="phone-chat-box">
+                            <div class="chat-bubble received">
+                                <div class="chat-bubble-content">
+                                    We are approaching the Dark Hour. Will you support me on this next project?
+                                </div>
+                                <span class="chat-time-stamp">11:58 PM</span>
+                            </div>
+                            <div class="chat-bubble sent">
+                                <div class="chat-bubble-content">
+                                    Absolutely. I'm ready. What's the stack?
+                                </div>
+                                <span class="chat-time-stamp">11:59 PM</span>
+                            </div>
+                            <div class="chat-bubble received">
+                                <div class="chat-bubble-content">
+                                    Send me your details below. We'll finalize the contract.
+                                </div>
+                                <span class="chat-time-stamp">12:00 PM</span>
+                            </div>
+                        </div>
+
+                        <!-- Phone Input Message Fields -->
+                        <form class="phone-message-form" id="contact-p3-form"
+                            onsubmit="event.preventDefault(); return false;">
+                            <div class="form-slanted-inputs">
+                                <input type="text" class="phone-form-input" id="c-name" placeholder="Name" required>
+                                <input type="email" class="phone-form-input" id="c-email" placeholder="Email" required>
+                                <textarea class="phone-form-textarea" id="c-message" placeholder="Type a message..."
+                                    required></textarea>
+                            </div>
+                            <button type="submit" class="phone-send-btn" id="phone-send-btn">
+                                <span>SEND MSG</span> ➔
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 6 — GITHUB PAGE (Confidant / Social Link Screen) -->
+        <section class="screen hidden" id="github-menu">
+            <div class="subpage-container">
+                <button class="p3-back-btn"><span>◀</span> BACK</button>
+
+                <div class="confidant-screen-layout">
+                    <!-- Confidant card graphics -->
+                    <div class="confidant-card-graphic">
+                        <div class="confidant-card-tarot-art">
+                            <div class="tarot-star-symbol">★</div>
+                            <div class="tarot-card-name">XVII. THE STAR</div>
+                        </div>
+
+                    </div>
+
+                    <!-- Confidant info details -->
+                    <div class="confidant-details-text-box">
+                        <div class="confidant-subtitle-category">SOCIAL LINK SYSTEM</div>
+                        <h1 class="confidant-title-name font-bold">GITHUB / andikalmao</h1>
+                        <p class="confidant-description-paragraph">
+                            Look through the projects I made!
+                        </p>
+
+                        <div class="confidant-perks-list">
+                            <h3 class="perks-title">CONFIDANT PERKS UNLOCKED</h3>
+                            <ul class="perk-items">
+                                <li><span class="perk-bullet">◆</span> <strong>Code Mastery:</strong> Flawless codebase
+                                    structure in PHP and JavaScript.</li>
+                                <li><span class="perk-bullet">◆</span> <strong>Visual Edge:</strong> Creative styling
+                                    with immersive cinematic transitions.</li>
+                                <li><span class="perk-bullet">◆</span> <strong>Dark Hour Dev:</strong> High-performance
+                                    coding late into the night.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Stylized GitHub visit link button -->
+                        <a href="https://github.com/andikalmao" target="_blank" class="p3r-action-btn">
+                            VISIT PROFILE <span>➔</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script src="script.js"></script>
