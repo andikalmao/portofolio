@@ -21,9 +21,7 @@
 
 <body>
     <!-- jams -->
-    <audio autoplay preload="auto" loop id="audios">
-        <source src="./assets/audio/WhenTheMoon'sReachingOutStars.mp3" type="audio/mpeg">
-    </audio>
+    <audio preload="auto" id="audios"></audio>
     <audio id="hovering" preload="auto" src="./assets/audio/deck_ui_navigation.wav"></audio>
     <audio id="clicking" preload="auto" src="./assets/audio/deck_ui_default_activation.wav"></audio>
 
@@ -32,6 +30,29 @@
 
     <!-- Fullscreen Page transition biar sikma -->
     <div id="page-transition-overlay" class="page-transition-overlay"></div>
+
+    <!-- P3R Music Player Widget -->
+    <div id="music-player" class="music-player">
+        <div class="music-player-inner">
+            <div class="music-player-art">
+                <div class="music-player-vinyl">
+                    <div class="vinyl-ring"></div>
+                    <div class="vinyl-center"></div>
+                </div>
+            </div>
+            <div class="music-player-info">
+                <div class="music-player-label">NOW PLAYING</div>
+                <div class="music-track-marquee-wrap">
+                    <span class="music-track-name" id="music-track-name">When the Moon's Reaching Out Stars</span>
+                </div>
+            </div>
+            <div class="music-player-controls">
+                <button class="music-ctrl-btn" id="music-prev" title="Prev">◀◀</button>
+                <button class="music-ctrl-btn music-play-btn" id="music-play" title="Play/Pause">▶</button>
+                <button class="music-ctrl-btn" id="music-next" title="Next">▶▶</button>
+            </div>
+        </div>
+    </div>
 
 
 

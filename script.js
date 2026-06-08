@@ -17,6 +17,132 @@ if (bgMusic) bgMusic.volume = 0.45;
 if (hoverSound) hoverSound.volume = 0.55;
 if (clickSound) clickSound.volume = 0.65;
 
+// --------------------------------------------------
+// MUSIC PLAYER CONTROLS (P3R STYLE)
+// --------------------------------------------------
+const playlist = [
+    {
+        title: "When the Moon's Reaching Out Stars",
+        src: "./assets/audio/WhenTheMoon'sReachingOutStars.mp3"
+    },
+    {
+        title: "Color Your Night",
+        src: "./assets/audio/coloryournight.mp3"
+    },
+    {
+        title: "Its Going Down Now",
+        src: "./assets/audio/down.mp3"
+    },
+    {
+        title: "Mass Destruction",
+        src: "./assets/audio/mass.mp3"
+    }
+
+];
+let currentTrackIndex = 0;
+let isPlaying = false;
+
+const musicPlayer = document.getElementById("music-player");
+const musicTrackName = document.getElementById("music-track-name");
+const playBtn = document.getElementById("music-play");
+const prevBtn = document.getElementById("music-prev");
+const nextBtn = document.getElementById("music-next");
+
+function loadTrack(index) {
+    if (bgMusic && playlist[index]) {
+        bgMusic.src = playlist[index].src;
+        if (musicTrackName) {
+            musicTrackName.textContent = playlist[index].title;
+        }
+    }
+}
+
+function playTrack() {
+    if (bgMusic) {
+        bgMusic.play()
+            .then(() => {
+                isPlaying = true;
+                if (playBtn) playBtn.textContent = "||";
+                if (musicPlayer) musicPlayer.classList.add("playing");
+            })
+            .catch(e => {
+                console.log("Play failed: " + e);
+            });
+    }
+}
+
+function pauseTrack() {
+    if (bgMusic) {
+        bgMusic.pause();
+        isPlaying = false;
+        if (playBtn) playBtn.textContent = "▶";
+        if (musicPlayer) musicPlayer.classList.remove("playing");
+    }
+}
+
+function togglePlay() {
+    if (isPlaying) {
+        pauseTrack();
+    } else {
+        playTrack();
+    }
+}
+
+function nextTrack() {
+    currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+    loadTrack(currentTrackIndex);
+    if (isPlaying) {
+        playTrack();
+    }
+}
+
+function prevTrack() {
+    currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+    loadTrack(currentTrackIndex);
+    if (isPlaying) {
+        playTrack();
+    }
+}
+
+// Initial setup
+if (bgMusic) {
+    loadTrack(currentTrackIndex);
+    
+    playTrack();
+    
+    document.addEventListener("click", () => {
+        if (!isPlaying && bgMusic.paused) {
+            playTrack();
+        }
+    }, { once: true });
+
+    // Handle track ended -> play next
+    bgMusic.addEventListener("ended", () => {
+        nextTrack();
+    });
+}
+
+if (playBtn) playBtn.addEventListener("click", togglePlay);
+if (nextBtn) nextBtn.addEventListener("click", nextTrack);
+if (prevBtn) prevBtn.addEventListener("click", prevTrack);
+
+// Add sound triggers to music player control buttons
+const musicCtrlButtons = document.querySelectorAll(".music-ctrl-btn");
+musicCtrlButtons.forEach(btn => {
+    btn.addEventListener("mouseenter", () => {
+        if (hoverSound) {
+            hoverSound.currentTime = 0;
+            hoverSound.play().catch(e => console.log(e));
+        }
+    });
+    btn.addEventListener("click", () => {
+        if (clickSound) {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(e => console.log(e));
+        }
+    });
+});
+
 // Main menu background videos flow setup
 if (intro && loop) {
     intro.src = "./assets/makoto.mp4";
