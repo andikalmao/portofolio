@@ -1,5 +1,5 @@
 /* --------------------------------------------------
-   PERSONA 3 RELOAD DESIGN SYSTEM & VARIABLES
+   PERSONA 3 RELOAD DESIGN SYSTEM & VARIABLES FUCK TAILWIND RAAAAA
    -------------------------------------------------- */
 :root {
     --bg-deep: #050518;
@@ -64,7 +64,6 @@ body {
     z-index: 0;
 }
 
-/* Sparkle Canvas Overlay */
 #sparkle-canvas {
     position: fixed;
     top: 0;
@@ -75,7 +74,6 @@ body {
     z-index: 99;
 }
 
-/* Repeating diagonal stripe background pattern for subpages */
 .subpage-container {
     position: relative;
     width: 100%;
@@ -96,7 +94,7 @@ body {
     transition: var(--transition-cinematic);
 }
 
-/* Subtle holographic overlay pattern for subpages */
+
 .screen::before {
     content: '';
     position: absolute;
@@ -108,7 +106,7 @@ body {
     z-index: 2;
 }
 
-/* Checkerboard overlay on subpage backgrounds */
+
 .screen::after {
     content: '';
     position: absolute;
@@ -120,7 +118,7 @@ body {
     z-index: 2;
 }
 
-/* Main menu bypass background video settings */
+
 #main-menu-screen {
     background: transparent;
 }
@@ -130,7 +128,7 @@ body {
     display: none;
 }
 
-/* Screen state classes */
+
 .screen.active {
     opacity: 1;
     transform: scale(1) rotate(0deg);
@@ -186,7 +184,7 @@ body {
     }
 }
 
-/* Arcana Burst banner slamming in */
+
 .arcana-burst-banner {
     position: fixed;
     inset: 0;
@@ -257,7 +255,7 @@ body {
 }
 
 /* --------------------------------------------------
-   MAIN MENU UI (PAGE 1)
+   MAIN MENU UI 
    -------------------------------------------------- */
 .nav {
     position: absolute;
@@ -435,7 +433,6 @@ ul {
     width: 100%;
     height: 100%;
     background-color: #020b47;
-    /* Dark blue base */
     overflow: hidden;
     z-index: 1;
     pointer-events: none;
@@ -449,20 +446,20 @@ ul {
     height: 100%;
 }
 
-/* The brighter blue angled band in the middle */
+
 .shape-1 {
     background-color: #051fa3;
-    /* Points: Top-Left, Top-Right, Bottom-Right, Bottom-Left */
+
     clip-path: polygon(0 20%, 100% 5%, 100% 75%, 0 90%);
-    
+
 }
 
-/* An extra darker shard/overlay like the Persona UI */
+
 .shape-2 {
     background-color: #03136b;
     clip-path: polygon(30% 0, 100% 0, 100% 40%, 60% 100%, 0 100%, 0 70%);
     opacity: 0.7;
-    
+
 }
 
 .subpage-title {
@@ -480,7 +477,7 @@ ul {
     transform: skewX(-10deg);
 }
 
-/* Slanted dynamic back button */
+
 .p3-back-btn {
     position: absolute;
     top: 2rem;
@@ -509,7 +506,7 @@ ul {
 }
 
 /* --------------------------------------------------
-   SKILLS PAGE & ARCANA CARDS (PAGE 2)
+   SKILLS PAGE & ARCANA CARDS RAHHHH
    -------------------------------------------------- */
 .skill-cards {
     display: flex;
@@ -574,7 +571,7 @@ ul {
     transition: border-color 0.3s;
 }
 
-/* Holographic silver border and corner numbers */
+/* border perak dan nomor sudut */
 .corner-num {
     position: absolute;
     font-family: "Orbitron", sans-serif;
@@ -620,7 +617,6 @@ ul {
     transition: all 0.3s;
 }
 
-/* Card wrapper hover interactions */
 .card-wrapper:hover {
     animation-play-state: paused;
     transform: scale(1.1) translateY(-20px) rotateY(10deg);
@@ -643,7 +639,7 @@ ul {
 }
 
 /* --------------------------------------------------
-   CARD DETAIL POP-OUT OVERLAY
+   POPOUT DETAIL
    -------------------------------------------------- */
 .card-popout-overlay {
     position: fixed;
@@ -709,7 +705,7 @@ ul {
     width: 100%;
 }
 
-/* Main enlarged card styling */
+/* menggede */
 .main-popout-card-holder {
     position: relative;
     width: 250px;
@@ -753,7 +749,7 @@ ul {
     right: 15px;
 }
 
-/* Flanking cards styling */
+/* Flanking cards (yang duwa dipinggir itu) */
 .minor-card {
     position: relative;
     width: 130px;
@@ -865,7 +861,7 @@ ul {
     background-color: rgba(255, 255, 255, 0.15);
 }
 
-/* Top-Right Draw indicator */
+
 .draw-indicator-box {
     position: absolute;
     top: 2rem;
@@ -895,7 +891,7 @@ ul {
     line-height: 0.9;
 }
 
-/* Bottom-left Arcana burst minibar */
+
 .arcana-burst-mini-bar {
     position: absolute;
     bottom: 2rem;
@@ -933,7 +929,6 @@ ul {
     box-shadow: 0 0 5px var(--accent-cyan);
 }
 
-/* Bottom-Right Game controls hint */
 .controls-hint-box {
     position: absolute;
     bottom: 2rem;
@@ -976,7 +971,7 @@ ul {
 }
 
 /* --------------------------------------------------
-   PROJECTS PAGE UI (PAGE 3)
+   PROJECTS PAGE (kosong bngt woik nangis gw)
    -------------------------------------------------- */
 .projects-grid {
     display: grid;
@@ -1057,7 +1052,6 @@ ul {
     transition: var(--transition-bounce);
 }
 
-/* Project card hovers */
 .project-card:hover {
     transform: translateY(-10px) scale(1.03);
     border-color: var(--accent-cyan);
@@ -1079,7 +1073,6 @@ ul {
     text-shadow: 0 0 10px rgba(0, 221, 255, 0.5);
 }
 
-/* Project detail box overlay */
 .project-details-box {
     background-color: #101430;
     border: 3px solid var(--accent-cyan);
@@ -1169,7 +1162,7 @@ ul {
 }
 
 /* --------------------------------------------------
-   ABOUT ME & STATUS SCREEN (PAGE 4)
+   ABOUT ME & STATUS SCREEN 
    -------------------------------------------------- */
 .status-screen-layout {
     display: flex;
@@ -1304,7 +1297,7 @@ ul {
     letter-spacing: 1px;
 }
 
-/* Right stats dashboard sliders */
+
 .status-panel-title {
     font-family: "Bowlby One", sans-serif;
     font-style: italic;
@@ -1378,7 +1371,7 @@ ul {
 }
 
 /* --------------------------------------------------
-   CONTACT SCREEN - PHONE MESSENGER UI (PAGE 5)
+   CONTACT SCREEN 
    -------------------------------------------------- */
 .phone-ui-container {
     display: flex;
@@ -1440,7 +1433,6 @@ ul {
     color: #44dd66;
 }
 
-/* Chat bubble styling */
 .phone-messages-list {
     flex: 1;
     padding: 15px;
@@ -1490,7 +1482,7 @@ ul {
     align-self: flex-end;
 }
 
-/* Phone slanting input message form style */
+
 .phone-message-form {
     padding: 12px;
     background-color: rgba(0, 0, 0, 0.4);
@@ -1553,189 +1545,7 @@ ul {
     transform: scale(1.03);
 }
 
-/* --------------------------------------------------
-   GITHUB SCREEN - CONFIDANT UI (PAGE 6)
-   -------------------------------------------------- */
-.confidant-screen-layout {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 100%;
-}
 
-/* Confidant card illustration design */
-.confidant-card-graphic {
-    position: relative;
-    width: 250px;
-    height: 380px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.confidant-card-tarot-art {
-    width: 100%;
-    height: 100%;
-    background-color: #101430;
-    border: 4px solid var(--accent-gold);
-    border-radius: 12px;
-    box-shadow: 0 0 25px rgba(240, 192, 64, 0.4);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 30px 15px;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Radial rays inside the tarot card background */
-.confidant-card-tarot-art::before {
-    content: '';
-    position: absolute;
-    width: 150%;
-    height: 150%;
-    background: repeating-conic-gradient(from 0deg, rgba(240, 192, 64, 0.05) 0deg 15deg, transparent 15deg 30deg);
-    animation: spinRays 20s linear infinite;
-    z-index: 0;
-}
-
-@keyframes spinRays {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.tarot-star-symbol {
-    font-size: 6rem;
-    color: var(--accent-gold);
-    text-shadow: 0 0 15px rgba(240, 192, 64, 0.6);
-    z-index: 1;
-}
-
-.tarot-card-name {
-    font-family: "Bowlby One", sans-serif;
-    font-size: 0.9rem;
-    color: #ffffff;
-    z-index: 1;
-    letter-spacing: 1px;
-}
-
-/* Slanted confidant rank badge graphic overlay */
-
-
-@keyframes pulseRank {
-    0% {
-        transform: scale(1) rotate(15deg);
-    }
-
-    100% {
-        transform: scale(1.1) rotate(10deg);
-    }
-}
-
-.confidant-rank-label {
-    font-size: 0.6rem;
-    font-weight: bold;
-}
-
-.confidant-rank-value {
-    font-size: 1.3rem;
-    font-weight: 900;
-}
-
-/* Detail confidant summary cards right */
-.confidant-details-text-box {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.confidant-subtitle-category {
-    font-family: "Bowlby One", sans-serif;
-    font-style: italic;
-    font-size: 0.9rem;
-    color: var(--accent-cyan);
-}
-
-.confidant-title-name {
-    font-family: "Bowlby One", sans-serif;
-    font-size: 2.8rem;
-    font-style: italic;
-    transform: skewX(-8deg);
-    line-height: 1;
-}
-
-.confidant-description-paragraph {
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.85);
-}
-
-.confidant-perks-list {
-    background-color: rgba(16, 20, 48, 0.5);
-    border: 1px solid rgba(240, 192, 64, 0.3);
-    border-radius: 8px;
-    padding: 20px;
-}
-
-.perks-title {
-    font-family: "Bowlby One", sans-serif;
-    font-size: 0.9rem;
-    color: var(--accent-gold);
-    margin-bottom: 10px;
-}
-
-.perk-items {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.perk-items li {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.perk-bullet {
-    color: var(--accent-gold);
-    margin-right: 5px;
-}
-
-/* Confidant action button link */
-.p3r-action-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    background-color: var(--accent-gold);
-    color: #050518;
-    border: none;
-    padding: 12px 35px;
-    font-family: "Bowlby One", sans-serif;
-    font-size: 1.1rem;
-    font-style: italic;
-    text-decoration: none;
-    border-radius: 4px;
-    transform: skewX(-12deg);
-    transition: var(--transition-bounce);
-    width: fit-content;
-    box-shadow: 0 4px 15px rgba(240, 192, 64, 0.3);
-}
-
-.p3r-action-btn:hover {
-    background-color: #ffffff;
-    box-shadow: 0 0 20px #ffffff;
-    transform: scale(1.05) skewX(-12deg);
-}
 
 
 
@@ -1744,16 +1554,13 @@ ul {
    -------------------------------------------------- */
 @media (max-width: 1024px) {
 
-    .status-screen-layout,
-    .confidant-screen-layout {
+    .status-screen-layout {
         flex-direction: column;
         gap: 30px;
     }
 
     .status-left-panel,
-    .status-right-panel,
-    .confidant-card-graphic,
-    .confidant-details-text-box {
+    .status-right-panel {
         width: 100%;
         max-width: 600px;
         margin-left: auto;

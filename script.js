@@ -156,6 +156,11 @@ menuItems.forEach(menu => {
         if (targetScreenId) {
             switchToScreen(targetScreenId);
         }
+
+        const targetLink = menu.getAttribute("data-link");
+        if (targetLink) {
+            window.open(targetLink, '_blank');
+        }
     });
 });
 
@@ -399,3 +404,53 @@ if (contactForm && chatBox) {
         }, 1200);
     });
 }
+
+// --------------------------------------------------
+// GLOBAL KEYBOARD SHORTCUTS (e.g. B to go back/cancel)
+// --------------------------------------------------
+document.addEventListener("keydown", (e) => {
+    // Ignore keypresses if user is typing in inputs or textareas
+    if (document.activeElement && (
+        document.activeElement.tagName === "INPUT" || 
+        document.activeElement.tagName === "TEXTAREA" || 
+        document.activeElement.isContentEditable
+    )) {
+        return;
+    }
+
+    if (e.key === "b" || e.key === "B") {
+        let actionTriggered = false;
+
+        // Check if skills popout is open
+        if (popoutOverlay && popoutOverlay.classList.contains("active-popout")) {
+            if (clickSound) {
+                clickSound.currentTime = 0;
+                clickSound.play().catch(err => console.log(err));
+            }
+            popoutOverlay.classList.remove("active-popout");
+            actionTriggered = true;
+        }
+
+        // Check if project popout is open
+        if (projectOverlay && projectOverlay.classList.contains("active-popout")) {
+            if (clickSound) {
+                clickSound.currentTime = 0;
+                clickSound.play().catch(err => console.log(err));
+            }
+            projectOverlay.classList.remove("active-popout");
+            actionTriggered = true;
+        }
+
+        // If no popout was open, check if we are in a subpage menu and go back to main menu
+        if (!actionTriggered) {
+            const activeScreen = document.querySelector(".screen.active");
+            if (activeScreen && activeScreen.id !== "main-menu-screen") {
+                if (clickSound) {
+                    clickSound.currentTime = 0;
+                    clickSound.play().catch(err => console.log(err));
+                }
+                switchToScreen("main-menu-screen");
+            }
+        }
+    }
+});

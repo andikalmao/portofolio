@@ -7,7 +7,7 @@
     <title>Persona 3 Reload Portfolio</title>
     <link rel="stylesheet" href="style.css">
 
-    <!-- Google Fonts for Persona-like aesthetic: Outfit for bold sans, Orbitron for tech numbers, and Bowlby One for main titles -->
+    <!-- fonts and shi -->
     <link
         href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Outfit:wght@400;600;800;900&family=Orbitron:wght@700;900&display=swap"
         rel="stylesheet">
@@ -20,27 +20,27 @@
 </head>
 
 <body>
-    <!-- Background Music and SFX -->
+    <!-- jams -->
     <audio autoplay preload="auto" loop id="audios">
         <source src="./assets/audio/WhenTheMoon'sReachingOutStars.mp3" type="audio/mpeg">
     </audio>
     <audio id="hovering" preload="auto" src="./assets/audio/deck_ui_navigation.wav"></audio>
     <audio id="clicking" preload="auto" src="./assets/audio/deck_ui_default_activation.wav"></audio>
 
-    <!-- Sparkle Canvas Overlay -->
+    <!-- sparkles wleodgjkdjf -->
     <canvas id="sparkle-canvas"></canvas>
 
-    <!-- Fullscreen Page transition wipe overlay -->
+    <!-- Fullscreen Page transition biar sikma -->
     <div id="page-transition-overlay" class="page-transition-overlay"></div>
 
 
 
     <div id="all">
-        <!-- Main menu background videos -->
+        <!-- Main menu background -->
         <video class="fullscreen" autoplay preload="auto" id="intro"></video>
         <video class="fullscreen" loop preload="auto" id="loop"></video>
 
-        <!-- PAGE 1 — MAIN MENU -->
+        <!-- MAIN MENU -->
         <section class="screen active" id="main-menu-screen">
             <nav class="start" id="main_menu">
                 <ul class="nav fade-in">
@@ -69,7 +69,7 @@
                         </h2>
                     </li>
                     <li>
-                        <h2 class="menu4" data-screen="github-menu">
+                        <h2  class="menu4" data-link="https://github.com/andikalmao">
                             <span class="backrect"></span>
                             <span class="secbackrect"></span>
                             <span class="text base">GITHUB</span>
@@ -107,9 +107,8 @@
                         <div class="card-caption">Combat Skills</div>
                     </div>
 
-                    <!-- Card 2: Frameworks (Treasure Skills) -->
                     <div class="card-wrapper" data-index="1" data-category="Frameworks" data-badge="Treasure Skills"
-                        data-skills='["Laravel", "React", "Next.js", "Node.js"]'>
+                        data-skills='["Laravel", "React", "Node.js"]'>
                         <span class="corner-num top-left">8</span>
                         <span class="corner-num bottom-right">8</span>
                         <img class="card" src="./assets/cards/arcana_judgement.jpg" alt="Treasure Skills">
@@ -144,27 +143,27 @@
                 <div class="popout-background-glow"></div>
                 <div class="popout-flex-container">
                     <div class="popout-cards-row">
-                        <!-- Flanking minor card left -->
+                        <!--  card left -->
                         <div class="minor-card flank-left">
                             <span class="minor-num">8</span>
                             <div class="minor-suit">♦</div>
                         </div>
 
-                        <!-- Main pop-out card -->
+                        <!--  pop-out card -->
                         <div class="main-popout-card-holder">
                             <span class="popout-corner-num top-left">3</span>
                             <span class="popout-corner-num bottom-right">3</span>
                             <img id="popout-main-img" src="" alt="Selected Skill Card">
                         </div>
 
-                        <!-- Flanking minor card right -->
+                        <!-- kanan -->
                         <div class="minor-card flank-right">
                             <span class="minor-num">8</span>
                             <div class="minor-suit">♠</div>
                         </div>
                     </div>
 
-                    <!-- Selected details info at bottom -->
+                    <!-- Sbottom selected -->
                     <div class="popout-details-info">
                         <h2 class="popout-header-text">SKILL</h2>
                         <div class="popout-badge-pill" id="popout-category-pill">Combat Skills</div>
@@ -183,7 +182,7 @@
                     <span class="draw-number-text" id="draw-val">2</span>
                 </div>
 
-                <!-- ARCANA BURST minibar bottom-left -->
+                <!-- arcana minibar bottom-left -->
                 <div class="arcana-burst-mini-bar">
                     <span class="mini-bar-title">ARCANA BURST</span>
                     <div class="mini-bar-cards">
@@ -195,7 +194,7 @@
                     </div>
                 </div>
 
-                <!-- Game controls hint bottom-right -->
+                <!-- Game controls hint -->
                 <div class="controls-hint-box">
                     <span class="hint-item"><span class="hint-btn">⊕</span> Select Card</span>
                     <span class="hint-item"><span class="hint-btn">A</span> Confirm</span>
@@ -204,7 +203,7 @@
             </div>
         </section>
 
-        <!-- PAGE 3 — PROJECTS PAGE -->
+        <!--  PROJECTS PAGE -->
         <section class="screen hidden" id="projects-menu">
             <div class="subpage-container">
                 <button class="p3-back-btn"><span>◀</span> BACK</button>
@@ -253,7 +252,7 @@
                 </div>
             </div>
 
-            <!-- Project Details Pop-out Overlay -->
+            <!-- Project Details  -->
             <div id="project-popout-overlay" class="card-popout-overlay">
                 <div class="popout-background-glow"></div>
                 <div class="project-details-box">
@@ -271,7 +270,7 @@
             </div>
         </section>
 
-        <!-- PAGE 4 — ABOUT ME PAGE (Persona Status Screen) -->
+        <!-- ABOUT ME PAGE  -->
         <section class="screen hidden" id="about-menu">
             <div class="subpage-container">
                 <button class="p3-back-btn"><span>◀</span> BACK</button>
@@ -292,17 +291,17 @@
                             <div class="stat-bar-container">
                                 <div class="stat-bar-labels">
                                     <span class="stat-bar-title font-bold">HP</span>
-                                    <span class="stat-bar-value font-orbitron">999 / 999</span>
+                                    <span class="stat-bar-value font-orbitron">10 / 100</span>
                                 </div>
                                 <div class="stat-bar-fill-track">
-                                    <div class="stat-bar-fill-value hp-fill" style="width: 100%;"></div>
+                                    <div class="stat-bar-fill-value hp-fill" style="width: 10%;"></div>
                                 </div>
                             </div>
 
                             <div class="stat-bar-container">
                                 <div class="stat-bar-labels">
                                     <span class="stat-bar-title font-bold">SP</span>
-                                    <span class="stat-bar-value font-orbitron">999 / 999</span>
+                                    <span class="stat-bar-value font-orbitron">100/ 100</span>
                                 </div>
                                 <div class="stat-bar-fill-track">
                                     <div class="stat-bar-fill-value sp-fill" style="width: 100%;"></div>
@@ -313,7 +312,7 @@
                         <div class="status-character-portrait">
                             <!-- Subtle dynamic outline shadow of the character inside the status screen -->
                             <div class="portrait-slanted-card">
-                                <span class="portrait-card-tag">THE FOOL ARCANA</span>
+                                <span class="portrait-card-tag">gk logis</span>
                             </div>
                         </div>
                     </div>
@@ -326,46 +325,43 @@
                             <div class="param-row">
                                 <span class="param-name">FRONTEND (AGI)</span>
                                 <div class="param-bar-track">
-                                    <div class="param-bar-fill" style="width: 90%;"></div>
-                                </div>
-                                <span class="param-num font-orbitron">90</span>
-                            </div>
-                            <div class="param-row">
-                                <span class="param-name">BACKEND (STR)</span>
-                                <div class="param-bar-track">
                                     <div class="param-bar-fill" style="width: 95%;"></div>
                                 </div>
                                 <span class="param-num font-orbitron">95</span>
                             </div>
                             <div class="param-row">
+                                <span class="param-name">BACKEND (STR)</span>
+                                <div class="param-bar-track">
+                                    <div class="param-bar-fill" style="width: 75%;"></div>
+                                </div>
+                                <span class="param-num font-orbitron">75</span>
+                            </div>
+                            <div class="param-row">
                                 <span class="param-name">DATABASES (VIT)</span>
+                                <div class="param-bar-track">
+                                    <div class="param-bar-fill" style="width: 65%;"></div>
+                                </div>
+                                <span class="param-num font-orbitron">65</span>
+                            </div>
+                            <div class="param-row">
+                                <span class="param-name">UI / UX (DEX)</span>
                                 <div class="param-bar-track">
                                     <div class="param-bar-fill" style="width: 85%;"></div>
                                 </div>
                                 <span class="param-num font-orbitron">85</span>
                             </div>
                             <div class="param-row">
-                                <span class="param-name">UI / UX (DEX)</span>
-                                <div class="param-bar-track">
-                                    <div class="param-bar-fill" style="width: 80%;"></div>
-                                </div>
-                                <span class="param-num font-orbitron">80</span>
-                            </div>
-                            <div class="param-row">
                                 <span class="param-name">DEV OPS (LUK)</span>
                                 <div class="param-bar-track">
-                                    <div class="param-bar-fill" style="width: 75%;"></div>
+                                    <div class="param-bar-fill" style="width: 30%;"></div>
                                 </div>
-                                <span class="param-num font-orbitron">75</span>
+                                <span class="param-num font-orbitron">30</span>
                             </div>
                         </div>
 
-                        <!-- Bio description block in status screen style -->
                         <div class="status-bio-block">
                             <h3 class="bio-title">ANALYSIS SUMMARY</h3>
-                            <p class="bio-text">A versatile Full-Stack Engineer wielding powerful development arcanas.
-                                Highly optimized for designing high-performance, interactive, and visually stunning web
-                                systems. Active skill includes Laravel, React, and cinematic CSS magic.</p>
+                            <p class="bio-text">A Full-Stack Engineer with expertise in frontend and backend technologies. specialized in making interactive web applications.</p>
                         </div>
                     </div>
                 </div>
@@ -405,7 +401,7 @@
                             </div>
                             <div class="chat-bubble sent">
                                 <div class="chat-bubble-content">
-                                    Absolutely. I'm ready. What's the stack?
+                                    yup. I'm ready. What do you need?
                                 </div>
                                 <span class="chat-time-stamp">11:59 PM</span>
                             </div>
@@ -430,50 +426,6 @@
                                 <span>SEND MSG</span> ➔
                             </button>
                         </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PAGE 6 — GITHUB PAGE (Confidant / Social Link Screen) -->
-        <section class="screen hidden" id="github-menu">
-            <div class="subpage-container">
-                <button class="p3-back-btn"><span>◀</span> BACK</button>
-
-                <div class="confidant-screen-layout">
-                    <!-- Confidant card graphics -->
-                    <div class="confidant-card-graphic">
-                        <div class="confidant-card-tarot-art">
-                            <div class="tarot-star-symbol">★</div>
-                            <div class="tarot-card-name">XVII. THE STAR</div>
-                        </div>
-
-                    </div>
-
-                    <!-- Confidant info details -->
-                    <div class="confidant-details-text-box">
-                        <div class="confidant-subtitle-category">SOCIAL LINK SYSTEM</div>
-                        <h1 class="confidant-title-name font-bold">GITHUB / andikalmao</h1>
-                        <p class="confidant-description-paragraph">
-                            Look through the projects I made!
-                        </p>
-
-                        <div class="confidant-perks-list">
-                            <h3 class="perks-title">CONFIDANT PERKS UNLOCKED</h3>
-                            <ul class="perk-items">
-                                <li><span class="perk-bullet">◆</span> <strong>Code Mastery:</strong> Flawless codebase
-                                    structure in PHP and JavaScript.</li>
-                                <li><span class="perk-bullet">◆</span> <strong>Visual Edge:</strong> Creative styling
-                                    with immersive cinematic transitions.</li>
-                                <li><span class="perk-bullet">◆</span> <strong>Dark Hour Dev:</strong> High-performance
-                                    coding late into the night.</li>
-                            </ul>
-                        </div>
-
-                        <!-- Stylized GitHub visit link button -->
-                        <a href="https://github.com/andikalmao" target="_blank" class="p3r-action-btn">
-                            VISIT PROFILE <span>➔</span>
-                        </a>
                     </div>
                 </div>
             </div>
