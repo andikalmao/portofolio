@@ -23,71 +23,71 @@ if (exitSound) exitSound.volume = 0.65;
 // CLASS
 
 
-    class SparkleParticle {
-        constructor(ctx,canvas) {
-            this.ctx = ctx
-            this.canvas = canvas
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 4 + 1;
-            this.speedX = Math.random() * 0.6 - 0.3;
-            this.speedY = Math.random() * -0.8 - 0.2; // float upwards
-            this.maxLife = Math.random() * 100 + 50; // duration
+class SparkleParticle {
+    constructor(ctx, canvas) {
+        this.ctx = ctx
+        this.canvas = canvas
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 4 + 1;
+        this.speedX = Math.random() * 0.6 - 0.3;
+        this.speedY = Math.random() * -0.8 - 0.2; // float upwards
+        this.maxLife = Math.random() * 100 + 50; // duration
+        this.life = this.maxLife;
+        this.color = Math.random() > 0.5 ? "rgba(0, 221, 255," : "rgba(240, 192, 64,"; // cyan vs gold
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life--;
+
+        // wrap borders
+        if (this.x < 0 || this.x > this.canvas.width) this.speedX *= -1;
+        if (this.y < 0) {
+            this.y = this.canvas.height;
             this.life = this.maxLife;
-            this.color = Math.random() > 0.5 ? "rgba(0, 221, 255," : "rgba(240, 192, 64,"; // cyan vs gold
-        }
-
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            this.life--;
-            
-            // wrap borders
-            if (this.x < 0 || this.x > this.canvas.width) this.speedX *= -1;
-            if (this.y < 0) {
-                this.y = this.canvas.height;
-                this.life = this.maxLife;
-            }
-        }
-
-        draw() {
-            const alpha = Math.sin((this.life / this.maxLife) * Math.PI); // fade in/out
-            this.ctx.shadowBlur = this.size * 2;
-            this.ctx.shadowColor = this.color.includes("240") ? "#f0c040" : "#00ddff";
-            this.ctx.fillStyle = `${this.color}${alpha})`;
-            this.ctx.beginPath();
-            
-            // Draw a diamond/sparkle star shape
-            const cx = this.x;
-            const cy = this.y;
-            const spikes = 4;
-            const outerRadius = this.size;
-            const innerRadius = this.size / 2.5;
-            
-            let rot = Math.PI / 2 * 3;
-            let x = cx;
-            let y = cy;
-            let step = Math.PI / spikes;
-
-            this.ctx.beginPath();
-            this.ctx.moveTo(cx, cy - outerRadius);
-            for (let i = 0; i < spikes; i++) {
-                x = cx + Math.cos(rot) * outerRadius;
-                y = cy + Math.sin(rot) * outerRadius;
-                this.ctx.lineTo(x, y);
-                rot += step;
-
-                x = cx + Math.cos(rot) * innerRadius;
-                y = cy + Math.sin(rot) * innerRadius;
-                this.ctx.lineTo(x, y);
-                rot += step;
-            }
-            this.ctx.lineTo(cx, cy - outerRadius);
-            this.ctx.closePath();
-            this.ctx.fill();
-            this.ctx.shadowBlur = 0; // reset
         }
     }
+
+    draw() {
+        const alpha = Math.sin((this.life / this.maxLife) * Math.PI); // fade in/out
+        this.ctx.shadowBlur = this.size * 2;
+        this.ctx.shadowColor = this.color.includes("240") ? "#f0c040" : "#00ddff";
+        this.ctx.fillStyle = `${this.color}${alpha})`;
+        this.ctx.beginPath();
+
+        // Draw a diamond/sparkle star shape
+        const cx = this.x;
+        const cy = this.y;
+        const spikes = 4;
+        const outerRadius = this.size;
+        const innerRadius = this.size / 2.5;
+
+        let rot = Math.PI / 2 * 3;
+        let x = cx;
+        let y = cy;
+        let step = Math.PI / spikes;
+
+        this.ctx.beginPath();
+        this.ctx.moveTo(cx, cy - outerRadius);
+        for (let i = 0; i < spikes; i++) {
+            x = cx + Math.cos(rot) * outerRadius;
+            y = cy + Math.sin(rot) * outerRadius;
+            this.ctx.lineTo(x, y);
+            rot += step;
+
+            x = cx + Math.cos(rot) * innerRadius;
+            y = cy + Math.sin(rot) * innerRadius;
+            this.ctx.lineTo(x, y);
+            rot += step;
+        }
+        this.ctx.lineTo(cx, cy - outerRadius);
+        this.ctx.closePath();
+        this.ctx.fill();
+        this.ctx.shadowBlur = 0; // reset
+    }
+}
 // --------------------------------------------------
 // MUSIC PLAYER CONTROLS (P3R STYLE)
 // --------------------------------------------------
@@ -179,9 +179,9 @@ function prevTrack() {
 // Initial setup
 if (bgMusic) {
     loadTrack(currentTrackIndex);
-    
+
     playTrack();
-    
+
     document.addEventListener("click", () => {
         if (!isPlaying && bgMusic.paused) {
             playTrack();
@@ -251,7 +251,7 @@ if (canvas) {
 
     function initParticles() {
         for (let i = 0; i < 40; i++) {
-            particles.push(new SparkleParticle(ctx,canvas));
+            particles.push(new SparkleParticle(ctx, canvas));
         }
     }
     initParticles();
@@ -262,7 +262,7 @@ if (canvas) {
             p.update();
             p.draw();
             if (p.life <= 0) {
-                particles[index] = new SparkleParticle(ctx,canvas);
+                particles[index] = new SparkleParticle(ctx, canvas);
             }
         });
         requestAnimationFrame(animateParticles);
@@ -336,7 +336,7 @@ function switchToScreen(id) {
         transitionOverlay.classList.remove("trigger-wipe");
         void transitionOverlay.offsetWidth; // trigger reflow
         transitionOverlay.classList.add("trigger-wipe");
-        
+
         setTimeout(() => {
             // Hide all screen nodes
             screens.forEach(s => {
@@ -512,7 +512,7 @@ const chatBox = document.getElementById("phone-chat-box");
 if (contactForm && chatBox) {
     contactForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        
+
         const nameInput = document.getElementById("c-name");
         const emailInput = document.getElementById("c-email");
         const msgInput = document.getElementById("c-message");
@@ -562,8 +562,8 @@ if (contactForm && chatBox) {
 document.addEventListener("keydown", (e) => {
     // Ignore keypresses if user is typing in inputs or textareas
     if (document.activeElement && (
-        document.activeElement.tagName === "INPUT" || 
-        document.activeElement.tagName === "TEXTAREA" || 
+        document.activeElement.tagName === "INPUT" ||
+        document.activeElement.tagName === "TEXTAREA" ||
         document.activeElement.isContentEditable
     )) {
         return;

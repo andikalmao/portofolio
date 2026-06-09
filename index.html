@@ -12,12 +12,12 @@
         href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Outfit:wght@400;600;800;900&family=Orbitron:wght@700;900&display=swap"
         rel="stylesheet">
 
-    <link rel="preload" href="./assets/audio/WhenTheMoon'sReachingOutStars.mp3" as="audio">
-    <link rel="preload" href="./assets/makoto.mp4" as="video">
-    <link rel="preload" href="./assets/makoto_loop.mp4" as="video">
-    <link rel="preload" href="./assets/audio/deck_ui_navigation.wav" as="audio">
-    <link rel="preload" href="./assets/audio/deck_ui_default_activation.wav" as="audio">
-    <link rel="preload" href="./assets/audio/deck_ui_into_game_detail.wav" as="audio">
+    <link rel="preload" href="./assets/audio/WhenTheMoon'sReachingOutStars.mp3" as="fetch" crossorigin>
+    <link rel="preload" href="./assets/makoto.mp4" as="fetch" crossorigin>
+    <link rel="preload" href="./assets/makoto_loop.mp4" as="fetch" crossorigin>
+    <link rel="preload" href="./assets/audio/deck_ui_navigation.wav" as="fetch" crossorigin>
+    <link rel="preload" href="./assets/audio/deck_ui_default_activation.wav" as="fetch" crossorigin>
+    <link rel="preload" href="./assets/audio/deck_ui_into_game_detail.wav" as="fetch" crossorigin>
 </head>
 
 <body>
@@ -60,8 +60,8 @@
 
     <div id="all">
         <!-- Main menu background -->
-        <video class="fullscreen" autoplay preload="auto" id="intro"></video>
-        <video class="fullscreen" loop preload="auto" id="loop"></video>
+        <video class="fullscreen" autoplay muted playsinline preload="auto" id="intro"></video>
+        <video class="fullscreen" loop muted playsinline preload="auto" id="loop"></video>
 
         <!-- MAIN MENU -->
         <section class="screen active" id="main-menu-screen">
