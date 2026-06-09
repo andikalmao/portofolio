@@ -6,6 +6,7 @@ const loop = document.getElementById("loop");
 const bgMusic = document.getElementById("audios");
 const hoverSound = document.getElementById("hovering");
 const clickSound = document.getElementById("clicking");
+const exitSound = document.getElementById("exiting");
 
 // Main menu navigation items
 const menuItems = document.querySelectorAll('[class^="menu"]');
@@ -16,7 +17,77 @@ const transitionOverlay = document.getElementById("page-transition-overlay");
 if (bgMusic) bgMusic.volume = 0.45;
 if (hoverSound) hoverSound.volume = 0.55;
 if (clickSound) clickSound.volume = 0.65;
+if (exitSound) exitSound.volume = 0.65;
 
+
+// CLASS
+
+
+    class SparkleParticle {
+        constructor(ctx,canvas) {
+            this.ctx = ctx
+            this.canvas = canvas
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 4 + 1;
+            this.speedX = Math.random() * 0.6 - 0.3;
+            this.speedY = Math.random() * -0.8 - 0.2; // float upwards
+            this.maxLife = Math.random() * 100 + 50; // duration
+            this.life = this.maxLife;
+            this.color = Math.random() > 0.5 ? "rgba(0, 221, 255," : "rgba(240, 192, 64,"; // cyan vs gold
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.life--;
+            
+            // wrap borders
+            if (this.x < 0 || this.x > this.canvas.width) this.speedX *= -1;
+            if (this.y < 0) {
+                this.y = this.canvas.height;
+                this.life = this.maxLife;
+            }
+        }
+
+        draw() {
+            const alpha = Math.sin((this.life / this.maxLife) * Math.PI); // fade in/out
+            this.ctx.shadowBlur = this.size * 2;
+            this.ctx.shadowColor = this.color.includes("240") ? "#f0c040" : "#00ddff";
+            this.ctx.fillStyle = `${this.color}${alpha})`;
+            this.ctx.beginPath();
+            
+            // Draw a diamond/sparkle star shape
+            const cx = this.x;
+            const cy = this.y;
+            const spikes = 4;
+            const outerRadius = this.size;
+            const innerRadius = this.size / 2.5;
+            
+            let rot = Math.PI / 2 * 3;
+            let x = cx;
+            let y = cy;
+            let step = Math.PI / spikes;
+
+            this.ctx.beginPath();
+            this.ctx.moveTo(cx, cy - outerRadius);
+            for (let i = 0; i < spikes; i++) {
+                x = cx + Math.cos(rot) * outerRadius;
+                y = cy + Math.sin(rot) * outerRadius;
+                this.ctx.lineTo(x, y);
+                rot += step;
+
+                x = cx + Math.cos(rot) * innerRadius;
+                y = cy + Math.sin(rot) * innerRadius;
+                this.ctx.lineTo(x, y);
+                rot += step;
+            }
+            this.ctx.lineTo(cx, cy - outerRadius);
+            this.ctx.closePath();
+            this.ctx.fill();
+            this.ctx.shadowBlur = 0; // reset
+        }
+    }
 // --------------------------------------------------
 // MUSIC PLAYER CONTROLS (P3R STYLE)
 // --------------------------------------------------
@@ -41,6 +112,7 @@ const playlist = [
 ];
 let currentTrackIndex = 0;
 let isPlaying = false;
+let isTransitioning = false;
 
 const musicPlayer = document.getElementById("music-player");
 const musicTrackName = document.getElementById("music-track-name");
@@ -116,7 +188,7 @@ if (bgMusic) {
         }
     }, { once: true });
 
-    // Handle track ended -> play next
+
     bgMusic.addEventListener("ended", () => {
         nextTrack();
     });
@@ -176,73 +248,10 @@ if (canvas) {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    class SparkleParticle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 4 + 1;
-            this.speedX = Math.random() * 0.6 - 0.3;
-            this.speedY = Math.random() * -0.8 - 0.2; // float upwards
-            this.maxLife = Math.random() * 100 + 50; // duration
-            this.life = this.maxLife;
-            this.color = Math.random() > 0.5 ? "rgba(0, 221, 255," : "rgba(240, 192, 64,"; // cyan vs gold
-        }
-
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            this.life--;
-            
-            // wrap borders
-            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-            if (this.y < 0) {
-                this.y = canvas.height;
-                this.life = this.maxLife;
-            }
-        }
-
-        draw() {
-            const alpha = Math.sin((this.life / this.maxLife) * Math.PI); // fade in/out
-            ctx.shadowBlur = this.size * 2;
-            ctx.shadowColor = this.color.includes("240") ? "#f0c040" : "#00ddff";
-            ctx.fillStyle = `${this.color}${alpha})`;
-            ctx.beginPath();
-            
-            // Draw a diamond/sparkle star shape
-            const cx = this.x;
-            const cy = this.y;
-            const spikes = 4;
-            const outerRadius = this.size;
-            const innerRadius = this.size / 2.5;
-            
-            let rot = Math.PI / 2 * 3;
-            let x = cx;
-            let y = cy;
-            let step = Math.PI / spikes;
-
-            ctx.beginPath();
-            ctx.moveTo(cx, cy - outerRadius);
-            for (let i = 0; i < spikes; i++) {
-                x = cx + Math.cos(rot) * outerRadius;
-                y = cy + Math.sin(rot) * outerRadius;
-                ctx.lineTo(x, y);
-                rot += step;
-
-                x = cx + Math.cos(rot) * innerRadius;
-                y = cy + Math.sin(rot) * innerRadius;
-                ctx.lineTo(x, y);
-                rot += step;
-            }
-            ctx.lineTo(cx, cy - outerRadius);
-            ctx.closePath();
-            ctx.fill();
-            ctx.shadowBlur = 0; // reset
-        }
-    }
 
     function initParticles() {
         for (let i = 0; i < 40; i++) {
-            particles.push(new SparkleParticle());
+            particles.push(new SparkleParticle(ctx,canvas));
         }
     }
     initParticles();
@@ -253,7 +262,7 @@ if (canvas) {
             p.update();
             p.draw();
             if (p.life <= 0) {
-                particles[index] = new SparkleParticle();
+                particles[index] = new SparkleParticle(ctx,canvas);
             }
         });
         requestAnimationFrame(animateParticles);
@@ -273,18 +282,22 @@ menuItems.forEach(menu => {
     });
 
     menu.addEventListener("click", () => {
-        if (clickSound) {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(e => console.log(e));
-        }
-        
         const targetScreenId = menu.getAttribute("data-screen");
         if (targetScreenId) {
+            if (isTransitioning) return;
+            if (clickSound) {
+                clickSound.currentTime = 0;
+                clickSound.play().catch(e => console.log(e));
+            }
             switchToScreen(targetScreenId);
         }
 
         const targetLink = menu.getAttribute("data-link");
         if (targetLink) {
+            if (clickSound) {
+                clickSound.currentTime = 0;
+                clickSound.play().catch(e => console.log(e));
+            }
             window.open(targetLink, '_blank');
         }
     });
@@ -300,9 +313,10 @@ backButtons.forEach(btn => {
         }
     });
     btn.addEventListener("click", () => {
-        if (clickSound) {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(e => console.log(e));
+        if (isTransitioning) return;
+        if (exitSound) {
+            exitSound.currentTime = 0;
+            exitSound.play().catch(e => console.log(e));
         }
         switchToScreen("main-menu-screen");
     });
@@ -310,7 +324,15 @@ backButtons.forEach(btn => {
 
 // Switch screens with wipe animation transitions
 function switchToScreen(id) {
+    if (isTransitioning) return;
+
+    const target = document.getElementById(id);
+    if (target && target.classList.contains("active")) {
+        return;
+    }
+
     if (transitionOverlay) {
+        isTransitioning = true;
         transitionOverlay.classList.remove("trigger-wipe");
         void transitionOverlay.offsetWidth; // trigger reflow
         transitionOverlay.classList.add("trigger-wipe");
@@ -331,12 +353,15 @@ function switchToScreen(id) {
             }
 
             // Show selected screen node
-            const target = document.getElementById(id);
             if (target) {
                 target.classList.remove("hidden");
                 target.classList.add("active");
             }
         }, 500); // exactly at mid point of wipe transition
+
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 1200); // matches the 1.2s CSS transition length
     }
 }
 
@@ -545,6 +570,7 @@ document.addEventListener("keydown", (e) => {
     }
 
     if (e.key === "b" || e.key === "B") {
+        if (isTransitioning) return;
         let actionTriggered = false;
 
         // Check if skills popout is open
@@ -571,9 +597,9 @@ document.addEventListener("keydown", (e) => {
         if (!actionTriggered) {
             const activeScreen = document.querySelector(".screen.active");
             if (activeScreen && activeScreen.id !== "main-menu-screen") {
-                if (clickSound) {
-                    clickSound.currentTime = 0;
-                    clickSound.play().catch(err => console.log(err));
+                if (exitSound) {
+                    exitSound.currentTime = 0;
+                    exitSound.play().catch(err => console.log(err));
                 }
                 switchToScreen("main-menu-screen");
             }
