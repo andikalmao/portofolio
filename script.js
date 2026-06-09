@@ -233,35 +233,6 @@ if (intro && loop) {
     });
 }
 
-// Splash Screen click handler to enable immediate audio playback
-const splashScreen = document.getElementById("splash-screen");
-if (splashScreen) {
-    splashScreen.addEventListener("click", () => {
-        // Play the background music
-        if (bgMusic) {
-            playTrack();
-        }
-
-        // Play the click sound effect
-        if (clickSound) {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(e => console.log(e));
-        }
-
-        // Play the background video if it wasn't already running
-        if (intro) {
-            intro.play().catch(e => console.log(e));
-        }
-
-        // Fade out and remove the splash screen
-        splashScreen.style.opacity = "0";
-        splashScreen.style.pointerEvents = "none";
-        setTimeout(() => {
-            splashScreen.style.display = "none";
-        }, 800);
-    });
-}
-
 // --------------------------------------------------
 // CANVAS SPARKLE PARTICLE SYSTEM
 // --------------------------------------------------
