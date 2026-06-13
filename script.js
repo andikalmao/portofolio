@@ -215,6 +215,51 @@ musicCtrlButtons.forEach(btn => {
     });
 });
 
+// Idle fadeout/minimize logic for the music player widget
+let musicPlayerTimer = null;
+const MUSIC_PLAYER_IDLE_TIME = 5000; // 5 seconds of inactivity before minimizing
+
+function resetMusicPlayerTimer() {
+    if (!musicPlayer) return;
+    
+    // Clear any existing timer
+    if (musicPlayerTimer) {
+        clearTimeout(musicPlayerTimer);
+    }
+    
+    // Remove the idle class to show full controls
+    musicPlayer.classList.remove("idle");
+    
+    // Set timer to minimize player after idle duration
+    musicPlayerTimer = setTimeout(() => {
+        // Only minimize if user is not currently hovering over the player
+        if (!musicPlayer.matches(':hover')) {
+            musicPlayer.classList.add("idle");
+        }
+    }, MUSIC_PLAYER_IDLE_TIME);
+}
+
+if (musicPlayer) {
+    // Start initial timer on load
+    resetMusicPlayerTimer();
+    
+    // When mouse enters, restore player and keep it active
+    musicPlayer.addEventListener("mouseenter", () => {
+        if (musicPlayerTimer) clearTimeout(musicPlayerTimer);
+        musicPlayer.classList.remove("idle");
+    });
+    
+    // When mouse leaves, restart the idle timer
+    musicPlayer.addEventListener("mouseleave", () => {
+        resetMusicPlayerTimer();
+    });
+    
+    // Reset timer on any interaction/click inside the player
+    musicPlayer.addEventListener("click", () => {
+        resetMusicPlayerTimer();
+    });
+}
+
 // Main menu background videos flow setup
 if (intro && loop) {
     intro.src = "./assets/makoto.mp4";
