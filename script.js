@@ -504,6 +504,8 @@ const projDetailNum = document.getElementById("proj-detail-num");
 const projDetailTitle = document.getElementById("proj-detail-title");
 const projDetailTech = document.getElementById("proj-detail-tech");
 const projDetailDesc = document.getElementById("proj-detail-desc");
+const projVisitLink = document.getElementById("proj-visit-link");
+const projVisitBtn = document.getElementById("proj-visit-btn");
 
 projectCards.forEach(pCard => {
     pCard.addEventListener("click", () => {
@@ -516,11 +518,15 @@ projectCards.forEach(pCard => {
         const tech = pCard.getAttribute("data-tech");
         const desc = pCard.getAttribute("data-desc");
         const num = pCard.querySelector(".project-card-num").textContent;
+        const link = pCard.getAttribute("data-link");
+        const linkText = pCard.getAttribute("data-link-text");
 
         if (projDetailNum) projDetailNum.textContent = num;
         if (projDetailTitle) projDetailTitle.textContent = title;
         if (projDetailTech) projDetailTech.textContent = tech;
         if (projDetailDesc) projDetailDesc.textContent = desc;
+        if (projVisitLink) projVisitLink.setAttribute("href", link || "#");
+        if (projVisitBtn) projVisitBtn.textContent = linkText || "VISIT SITE ↗";
 
         if (projectOverlay) projectOverlay.classList.add("active-popout");
     });
@@ -549,63 +555,68 @@ if (projectOverlay) {
 }
 
 // --------------------------------------------------
-// PAGE 5: PHONE MESSENGER CUSTOM INTERACTIONS
+// COMMU MENU INTERACTION LOGIC
 // --------------------------------------------------
-const contactForm = document.getElementById("contact-p3-form");
-const chatBox = document.getElementById("phone-chat-box");
+const commuItems = document.querySelectorAll(".commu-item");
+const detailName = document.getElementById("commu-detail-name");
+const detailUsername = document.getElementById("commu-detail-username");
+const detailDesc = document.getElementById("commu-detail-desc");
+const actionBtn = document.getElementById("commu-action-btn");
+const cardImg = document.getElementById("commu-card-img");
 
-if (contactForm && chatBox) {
-    contactForm.addEventListener("submit", (e) => {
-        e.preventDefault();
+let activeCommuIndex = 0;
 
-        const nameInput = document.getElementById("c-name");
-        const emailInput = document.getElementById("c-email");
-        const msgInput = document.getElementById("c-message");
+function updateCommuSelection(index) {
+    if (index < 0 || index >= commuItems.length) return;
+    
+    activeCommuIndex = index;
 
-        if (nameInput.value.trim() === "" || msgInput.value.trim() === "") return;
+    commuItems.forEach((item, idx) => {
+        if (idx === index) {
+            item.classList.add("active-item");
+            
+            const name = item.querySelector(".commu-platform-name").textContent;
+            const username = item.getAttribute("data-username");
+            const desc = item.getAttribute("data-desc");
+            const link = item.getAttribute("data-link");
+            const bg = item.getAttribute("data-bg");
 
+            if (detailName) detailName.textContent = name;
+            if (detailUsername) detailUsername.textContent = username;
+            if (detailDesc) detailDesc.textContent = desc;
+            if (actionBtn) actionBtn.setAttribute("href", link);
+            if (cardImg) cardImg.setAttribute("src", bg);
+        } else {
+            item.classList.remove("active-item");
+        }
+    });
+}
+
+commuItems.forEach((item, index) => {
+    item.addEventListener("mouseenter", () => {
+        if (activeCommuIndex !== index) {
+            updateCommuSelection(index);
+            if (hoverSound) {
+                hoverSound.currentTime = 0;
+                hoverSound.play().catch(e => console.log(e));
+            }
+        }
+    });
+
+    item.addEventListener("click", () => {
         if (clickSound) {
             clickSound.currentTime = 0;
             clickSound.play().catch(e => console.log(e));
         }
-
-        // Add user message bubble
-        const userBubble = document.createElement("div");
-        userBubble.className = "chat-bubble sent";
-        userBubble.innerHTML = `
-            <div class="chat-bubble-content">${msgInput.value}</div>
-            <span class="chat-time-stamp">Just Now</span>
-        `;
-        chatBox.appendChild(userBubble);
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        // Clear input form message text area only (keep name & email filled)
-        msgInput.value = "";
-
-        // Trigger mock reply message after delay
-        setTimeout(() => {
-            if (clickSound) {
-                clickSound.currentTime = 0;
-                clickSound.play().catch(e => console.log(e));
-            }
-
-            const responseBubble = document.createElement("div");
-            responseBubble.className = "chat-bubble received";
-            responseBubble.innerHTML = `
-                <div class="chat-bubble-content">Understood. Your information has been cached. I'll get back to you soon.</div>
-                <span class="chat-time-stamp">Just Now</span>
-            `;
-            chatBox.appendChild(responseBubble);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }, 1200);
+        const link = item.getAttribute("data-link");
+        window.open(link, "_blank");
     });
-}
+});
 
 // --------------------------------------------------
-// GLOBAL KEYBOARD SHORTCUTS (e.g. B to go back/cancel)
+// GLOBAL KEYBOARD SHORTCUTS
 // --------------------------------------------------
 document.addEventListener("keydown", (e) => {
-    // Ignore keypresses if user is typing in inputs or textareas
     if (document.activeElement && (
         document.activeElement.tagName === "INPUT" ||
         document.activeElement.tagName === "TEXTAREA" ||
@@ -614,11 +625,44 @@ document.addEventListener("keydown", (e) => {
         return;
     }
 
+    const contactMenu = document.getElementById("contact-menu");
+    const isContactActive = contactMenu && contactMenu.classList.contains("active");
+
+    if (isContactActive) {
+        if (e.key === "ArrowUp") {
+            e.preventDefault();
+            let prevIndex = (activeCommuIndex - 1 + commuItems.length) % commuItems.length;
+            updateCommuSelection(prevIndex);
+            if (hoverSound) {
+                hoverSound.currentTime = 0;
+                hoverSound.play().catch(err => console.log(err));
+            }
+        } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            let nextIndex = (activeCommuIndex + 1) % commuItems.length;
+            updateCommuSelection(nextIndex);
+            if (hoverSound) {
+                hoverSound.currentTime = 0;
+                hoverSound.play().catch(err => console.log(err));
+            }
+        } else if (e.key === "Enter") {
+            e.preventDefault();
+            if (clickSound) {
+                clickSound.currentTime = 0;
+                clickSound.play().catch(err => console.log(err));
+            }
+            const activeItem = commuItems[activeCommuIndex];
+            if (activeItem) {
+                const link = activeItem.getAttribute("data-link");
+                window.open(link, "_blank");
+            }
+        }
+    }
+
     if (e.key === "b" || e.key === "B") {
         if (isTransitioning) return;
         let actionTriggered = false;
 
-        // Check if skills popout is open
         if (popoutOverlay && popoutOverlay.classList.contains("active-popout")) {
             if (clickSound) {
                 clickSound.currentTime = 0;
@@ -628,7 +672,6 @@ document.addEventListener("keydown", (e) => {
             actionTriggered = true;
         }
 
-        // Check if project popout is open
         if (projectOverlay && projectOverlay.classList.contains("active-popout")) {
             if (clickSound) {
                 clickSound.currentTime = 0;
@@ -638,7 +681,6 @@ document.addEventListener("keydown", (e) => {
             actionTriggered = true;
         }
 
-        // If no popout was open, check if we are in a subpage menu and go back to main menu
         if (!actionTriggered) {
             const activeScreen = document.querySelector(".screen.active");
             if (activeScreen && activeScreen.id !== "main-menu-screen") {

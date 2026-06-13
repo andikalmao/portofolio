@@ -161,7 +161,7 @@
                 </div>
             </div>
 
-            <!-- Card Pop-out detail overlay -->
+            <!-- Card Pop detail overlay -->
             <div id="card-popout-overlay" class="card-popout-overlay">
                 <div class="popout-background-glow"></div>
                 <div class="popout-flex-container">
@@ -234,42 +234,24 @@
 
                 <div class="projects-grid">
                     <!-- Project 1 -->
-                    <div class="project-card" data-title="Aigis Hub" data-tech="Laravel / Livewire / MySQL"
-                        data-desc="A premium e-learning administrative database system that handles high concurrency, styled with beautiful cyber-blue visuals and full stats tracking.">
+                    <div class="project-card" data-title="listing" data-tech="HTML / CSS / JS"
+                        data-desc="simple listing, one of my first web project"
+                        data-link="https://listing-plum.vercel.app/" data-link-text="VISIT SITE ↗">
                         <div class="project-card-slanted-bg"></div>
                         <span class="project-card-num">01</span>
-                        <h3 class="project-card-title">Aigis Hub</h3>
-                        <p class="project-card-tech">Laravel / Livewire</p>
+                        <h3 class="project-card-title">Listing</h3>
+                        <p class="project-card-tech">JavaScript</p>
                         <div class="project-card-sparkle"></div>
                     </div>
 
                     <!-- Project 2 -->
-                    <div class="project-card" data-title="Tartarus Crawler" data-tech="Node.js / React / Socket.io"
-                        data-desc="A real-time multiplayer dungeon navigation dashboard showing active player positions, level generation details, and party health bars.">
+                    <div class="project-card" data-title="nusantara-news" data-tech="laravel / tailwind / PostgreSQL"
+                        data-desc="A news website for nusantara (check my github)"
+                        data-link="https://github.com/andikalmao/nusantara-news" data-link-text="GITHUB ↗">
                         <div class="project-card-slanted-bg"></div>
                         <span class="project-card-num">02</span>
-                        <h3 class="project-card-title">Tartarus Crawl</h3>
-                        <p class="project-card-tech">React / Node.js</p>
-                        <div class="project-card-sparkle"></div>
-                    </div>
-
-                    <!-- Project 3 -->
-                    <div class="project-card" data-title="Evoker API" data-tech="Express / TypeScript / Redis"
-                        data-desc="A ultra-high throughput microservice system caching user confidant relationships and combat statistics using advanced Redis clustering.">
-                        <div class="project-card-slanted-bg"></div>
-                        <span class="project-card-num">03</span>
-                        <h3 class="project-card-title">Evoker API</h3>
-                        <p class="project-card-tech">TypeScript / Redis</p>
-                        <div class="project-card-sparkle"></div>
-                    </div>
-
-                    <!-- Project 4 -->
-                    <div class="project-card" data-title="Dark Hour Shop" data-tech="Next.js / Stripe / Tailwind"
-                        data-desc="A stunning e-commerce storefront utilizing server-side rendering for flawless SEO, custom cart management, and seamless payments.">
-                        <div class="project-card-slanted-bg"></div>
-                        <span class="project-card-num">04</span>
-                        <h3 class="project-card-title">Dark Hour Shop</h3>
-                        <p class="project-card-tech">Next.js / Stripe</p>
+                        <h3 class="project-card-title">Nusantara News</h3>
+                        <p class="project-card-tech">Laravel / Tailwind / PostgreSQL</p>
                         <div class="project-card-sparkle"></div>
                     </div>
                 </div>
@@ -280,13 +262,13 @@
                 <div class="popout-background-glow"></div>
                 <div class="project-details-box">
                     <h2 class="project-details-num" id="proj-detail-num">01</h2>
-                    <h1 class="project-details-title" id="proj-detail-title">Aigis Hub</h1>
+                    <h1 class="project-details-title" id="proj-detail-title">listing</h1>
                     <div class="popout-badge-pill" id="proj-detail-tech"
-                        style="background:#f0c040; color:black; font-weight:800;">Laravel / Livewire</div>
-                    <p class="project-details-desc" id="proj-detail-desc">A premium e-learning administrative database
-                        system that handles high concurrency.</p>
+                        style="background:#f0c040; color:black; font-weight:800;">HTML / CSS / JS</div>
+                    <p class="project-details-desc" id="proj-detail-desc">A simple listing, one of my first web project.</p>
                     <div class="project-details-controls">
-                        <button class="project-visit-btn">VISIT SITE ↗</button>
+                        <a href="https://listing-plum.vercel.app/" target="_blank" id="proj-visit-link"><button
+                                class="project-visit-btn" id="proj-visit-btn">VISIT SITE ↗</button></a>
                         <button class="project-close-btn" id="proj-close-btn">CLOSE Ⓑ</button>
                     </div>
                 </div>
@@ -305,7 +287,7 @@
                             <h1 class="char-name">HERO</h1>
                             <div class="char-level-box">
                                 <span class="char-level-label">LEVEL</span>
-                                <span class="char-level-value">99</span>
+                                <span class="char-level-value">69</span>
                             </div>
                         </div>
 
@@ -392,64 +374,112 @@
             </div>
         </section>
 
-        <!-- PAGE 5 — CONTACT PAGE (In-game Phone / Messenger UI) -->
+        <!-- Contact Commu Screen -->
         <section class="screen hidden" id="contact-menu">
-            <div class="subpage-container">
+            <div class="game-background">
+                <div class="angled-shape shape-1"></div>
+                <div class="angled-shape shape-2"></div>
+            </div>
+            <div class="subpage-container commu-container">
                 <button class="p3-back-btn"><span>◀</span> BACK</button>
+                <h1 class="subpage-title italic-title">SOCIAL LINK</h1>
 
-                <div class="phone-ui-container">
-                    <div class="phone-screen">
-                        <!-- Top status bar -->
-                        <div class="phone-status-bar">
-                            <span class="phone-network">LTE 📶</span>
-                            <span class="phone-time-clock font-orbitron">12:00 PM</span>
-                            <span class="phone-battery">🔋 100%</span>
+                <div class="commu-layout">
+                    <!-- Left: Commu list -->
+                    <div class="commu-left-panel">
+                        <div class="commu-list-header">
+                            <h2 class="commu-list-title">LIST</h2>
+                        </div>
+                        <div class="commu-list">
+                            <!-- Discord Commu -->
+                            <div class="commu-item active-item" data-index="0"
+                                data-link="https://discord.com/users/rcx.exe" data-username="rcx.exe"
+                                data-desc="Feel free to message me directly for collaborations."
+                                data-bg="./assets/cards/emperor.jpg">
+                                <div class="commu-item-main">
+                                    <div class="commu-arcana-badge">
+                                        <span class="commu-arcana-num">0</span>
+                                        <span class="commu-arcana-name">愚者</span>
+                                    </div>
+                                    <div class="commu-item-bar">
+                                        <span class="commu-platform-name">DISCORD</span>
+                                        <span class="commu-rank">RANK <span class="rank-num">MAX</span></span>
+                                    </div>
+                                </div>
+                                <div class="commu-sub-label">Special Extracurricular Activity Group</div>
+                            </div>
+
+                            <!-- WhatsApp Commu -->
+                            <div class="commu-item" data-index="1" data-link="https://wa.me/081375281609"
+                                data-username="+6281375281609" data-desc="Direct message contract via WhatsApp"
+                                data-bg="assets/cards/iyah.jpg">
+                                <div class="commu-item-main">
+                                    <div class="commu-arcana-badge">
+                                        <span class="commu-arcana-num">I</span>
+                                        <span class="commu-arcana-name">魔術師</span>
+                                    </div>
+                                    <div class="commu-item-bar">
+                                        <span class="commu-platform-name">WHATSAPP</span>
+                                        <span class="commu-rank">RANK <span class="rank-num">MAX</span></span>
+                                    </div>
+                                </div>
+                                <div class="commu-sub-label">Classmate / Personal Contact</div>
+                            </div>
+
+                            <!-- Instagram Commu -->
+                            <div class="commu-item" data-index="2" data-link="https://instagram.com/itss_andikaa"
+                                data-username="@itss_andikaa"
+                                data-desc="Follow my social life contract on Instagram. Checking out daily highlights and stories."
+                                data-bg="assets/cards/lamb.jpg">
+                                <div class="commu-item-main">
+                                    <div class="commu-arcana-badge">
+                                        <span class="commu-arcana-num">IV</span>
+                                        <span class="commu-arcana-name">皇帝</span>
+                                    </div>
+                                    <div class="commu-item-bar">
+                                        <span class="commu-platform-name">INSTAGRAM</span>
+                                        <span class="commu-rank">RANK <span class="rank-num">MAX</span></span>
+                                    </div>
+                                </div>
+                                <div class="commu-sub-label">Student Council / Social Feed</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Details and Card Display -->
+                    <div class="commu-right-panel">
+                        <div class="vertical-commu-text">COMMU</div>
+                        <div class="commu-card-container">
+                            <div class="commu-floating-card">
+                                <img src="assets/cards/arcana_hunger.jpg" alt="Selected Arcana Card" id="commu-card-img"
+                                    class="commu-card-img">
+                                <div class="commu-card-glow"></div>
+                            </div>
                         </div>
 
-                        <!-- Chat contact name -->
-                        <div class="phone-contact-header">
-                            <div class="contact-avatar-icon"></div>
-                            <div class="contact-name-info">
-                                <h4 class="contact-full-name">Pharos</h4>
-                                <span class="contact-status-online">Online</span>
+                        <!-- Commu details -->
+                        <div class="commu-detail-panel">
+                            <div class="commu-detail-header">
+                                <h3 class="detail-platform-name" id="commu-detail-name">DISCORD</h3>
+                                <span class="detail-username" id="commu-detail-username">andikalmao</span>
+                            </div>
+                            <p class="detail-description" id="commu-detail-desc">Establish a contract through Discord.
+                                Feel free to join my server or message me directly for collaborations.</p>
+                            <div class="commu-action-btn-container">
+                                <a href="https://discord.com/users/andikalmao" target="_blank" class="commu-action-btn"
+                                    id="commu-action-btn">ESTABLISH CONTRACT</a>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- Message List Area -->
-                        <div class="phone-messages-list" id="phone-chat-box">
-                            <div class="chat-bubble received">
-                                <div class="chat-bubble-content">
-                                    We are approaching the Dark Hour. Will you support me on this next project?
-                                </div>
-                                <span class="chat-time-stamp">11:58 PM</span>
-                            </div>
-                            <div class="chat-bubble sent">
-                                <div class="chat-bubble-content">
-                                    yup. I'm ready. What do you need?
-                                </div>
-                                <span class="chat-time-stamp">11:59 PM</span>
-                            </div>
-                            <div class="chat-bubble received">
-                                <div class="chat-bubble-content">
-                                    Send me your details below. We'll finalize the contract.
-                                </div>
-                                <span class="chat-time-stamp">12:00 PM</span>
-                            </div>
-                        </div>
-
-                        <!-- Phone Input Message Fields -->
-                        <form class="phone-message-form" id="contact-p3-form"
-                            onsubmit="event.preventDefault(); return false;">
-                            <div class="form-slanted-inputs">
-                                <input type="text" class="phone-form-input" id="c-name" placeholder="Name" required>
-                                <input type="email" class="phone-form-input" id="c-email" placeholder="Email" required>
-                                <textarea class="phone-form-textarea" id="c-message" placeholder="Type a message..."
-                                    required></textarea>
-                            </div>
-                            <button type="submit" class="phone-send-btn" id="phone-send-btn">
-                                <span>SEND MSG</span> ➔
-                            </button>
-                        </form>
+                <!-- Bottom guide hints -->
+                <div class="commu-guide-hint">
+                    <span class="guide-prompt">どのコミュを確認する？ / Confirm Social Link</span>
+                    <div class="guide-controls">
+                        <span class="hint-item"><span class="hint-btn">▲▼</span> Select</span>
+                        <span class="hint-item"><span class="hint-btn">A</span> Confirm</span>
+                        <span class="hint-item"><span class="hint-btn">B</span> Back</span>
                     </div>
                 </div>
             </div>
