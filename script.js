@@ -469,6 +469,10 @@ cardWrappers.forEach(card => {
         skills = [];
     }
 
+    card.addEventListener("mouseenter", () => {
+        playSfx(hoverSound);
+    });
+
     card.addEventListener("click", () => {
         playSfx(clickSound);
 

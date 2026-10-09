@@ -720,9 +720,11 @@ ul {
     cursor: pointer;
     transform-style: preserve-3d;
     perspective: 1000px;
-    transition: var(--transition-bounce);
     border-radius: 12px;
-    animation: floatAnimation 3s ease-in-out infinite;
+    /* Buttery-smooth transition on both mouseenter AND mouseleave */
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, filter 0.4s ease;
+    animation: floatAnimation 3.5s ease-in-out infinite;
+    will-change: transform, translate;
 }
 
 /* Stagger floating cards */
@@ -731,27 +733,40 @@ ul {
 }
 
 .card-wrapper:nth-child(2) {
-    animation-delay: 0.5s;
+    animation-delay: 0.6s;
 }
 
 .card-wrapper:nth-child(3) {
-    animation-delay: 1s;
+    animation-delay: 1.2s;
 }
 
 .card-wrapper:nth-child(4) {
-    animation-delay: 1.5s;
+    animation-delay: 1.8s;
 }
 
+/* The continuous idle float uses `translate` so it never resets or stutters during hover */
 @keyframes floatAnimation {
-
     0%,
     100% {
-        transform: translateY(0) rotate(0deg);
+        translate: 0 0;
     }
 
     50% {
-        transform: translateY(-12px) rotate(1deg);
+        translate: 0 -10px;
     }
+}
+
+/* Smooth pop-out using `transform` - smoothly animates in and out with cubic-bezier */
+.card-wrapper:hover {
+    transform: translateY(-22px) scale(1.08);
+    z-index: 10;
+}
+
+/* Subtly dim non-hovered sibling cards so hovered card pops out */
+.skill-cards:hover .card-wrapper:not(:hover) {
+    opacity: 0.65;
+    transform: scale(0.97) translateY(4px);
+    filter: brightness(0.85);
 }
 
 .card {
@@ -762,7 +777,7 @@ ul {
     border: 4px solid var(--card-border);
     background-color: var(--card-bg);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-    transition: border-color 0.3s;
+    transition: border-color 0.4s ease, box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* border perak dan nomor sudut */
@@ -774,6 +789,7 @@ ul {
     color: #ffffff;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
     z-index: 3;
+    transition: color 0.4s ease, text-shadow 0.4s ease;
 }
 
 .corner-num.top-left {
@@ -788,11 +804,11 @@ ul {
 
 .card-glow {
     position: absolute;
-    inset: 0;
-    border-radius: 10px;
+    inset: -2px;
+    border-radius: 12px;
     box-shadow: 0 0 0px var(--accent-cyan);
     opacity: 0;
-    transition: all 0.3s ease;
+    transition: opacity 0.4s ease, box-shadow 0.4s ease;
     pointer-events: none;
     z-index: 2;
 }
@@ -807,18 +823,13 @@ ul {
     color: var(--accent-cyan);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     white-space: nowrap;
-    opacity: 0.8;
-    transition: all 0.3s;
-}
-
-.card-wrapper:hover {
-    animation-play-state: paused;
-    transform: scale(1.1) translateY(-20px) rotateY(10deg);
-    z-index: 10;
+    opacity: 0.85;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease, opacity 0.4s ease, text-shadow 0.4s ease;
 }
 
 .card-wrapper:hover .card {
     border-color: var(--accent-cyan-bright);
+    box-shadow: 0 25px 40px rgba(0, 0, 0, 0.75), 0 0 30px rgba(0, 221, 255, 0.5);
 }
 
 .card-wrapper:hover .card-glow {
@@ -829,6 +840,12 @@ ul {
 .card-wrapper:hover .card-caption {
     opacity: 1;
     color: #ffffff;
+    transform: translateX(-50%) translateY(-5px) skewX(-10deg) scale(1.08);
+    text-shadow: 0 0 12px var(--accent-cyan);
+}
+
+.card-wrapper:hover .corner-num {
+    color: var(--accent-cyan-bright);
     text-shadow: 0 0 10px var(--accent-cyan);
 }
 
