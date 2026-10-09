@@ -91,7 +91,8 @@ body {
     width: 100%;
     height: 100%;
     background: var(--bg-gradient);
-    transition: var(--transition-cinematic);
+    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.3, 1), transform 0.5s cubic-bezier(0.25, 1, 0.3, 1);
+    will-change: opacity, transform;
 }
 
 

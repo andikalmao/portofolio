@@ -7,22 +7,17 @@
     <title>Persona 3 Reload Portfolio</title>
     <link rel="stylesheet" href="style.css">
 
-    <!-- fonts and shi -->
+    <!-- Google Fonts with preconnect for optimal loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Outfit:wght@400;600;800;900&family=Orbitron:wght@700;900&display=swap"
         rel="stylesheet">
-
-    <link rel="preload" href="./assets/audio/WhenTheMoon'sReachingOutStars.mp3" as="fetch" crossorigin>
-    <link rel="preload" href="./assets/makoto.mp4" as="fetch" crossorigin>
-    <link rel="preload" href="./assets/makoto_loop.mp4" as="fetch" crossorigin>
-    <link rel="preload" href="./assets/audio/deck_ui_navigation.wav" as="fetch" crossorigin>
-    <link rel="preload" href="./assets/audio/deck_ui_default_activation.wav" as="fetch" crossorigin>
-    <link rel="preload" href="./assets/audio/deck_ui_into_game_detail.wav" as="fetch" crossorigin>
 </head>
 
 <body>
     <!-- jams -->
-    <audio preload="auto" autoplay id="audios"></audio>
+    <audio preload="metadata" autoplay id="audios"></audio>
     <audio id="hovering" preload="auto" src="./assets/audio/deck_ui_navigation.wav"></audio>
     <audio id="clicking" preload="auto" src="./assets/audio/deck_ui_default_activation.wav"></audio>
     <audio id="exiting" preload="auto" src="./assets/audio/deck_ui_into_game_detail.wav"></audio>
@@ -284,7 +279,7 @@
                     <!-- Left: Character portrait area and levels -->
                     <div class="status-left-panel">
                         <div class="status-char-header">
-                            <h1 class="char-name">HERO</h1>
+                            <h1 class="char-name">Andika</h1>
                             <div class="char-level-box">
                                 <span class="char-level-label">LEVEL</span>
                                 <span class="char-level-value">69</span>

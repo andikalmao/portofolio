@@ -20,13 +20,66 @@ if (clickSound) clickSound.volume = 0.65;
 if (exitSound) exitSound.volume = 0.65;
 
 
-// CLASS
+// Safe sound player helper that avoids audio glitches and unhandled rejections
+function playSfx(audio) {
+    if (!audio) return;
+    audio.currentTime = 0;
+    audio.play().catch(() => {});
+}
 
+// Pre-rendered offscreen particle sprites (dramatic performance boost over per-frame shadowBlur)
+function createSparkleSprite(coreColor, glowColor) {
+    const sprite = document.createElement("canvas");
+    const dim = 64;
+    sprite.width = dim;
+    sprite.height = dim;
+    const sCtx = sprite.getContext("2d");
+    const center = dim / 2;
+    const outerRadius = 15;
+    const innerRadius = 5.5;
+    const spikes = 4;
+    let step = Math.PI / spikes;
+    let rot = (Math.PI / 2) * 3;
+
+    // Smooth radial glow
+    const grad = sCtx.createRadialGradient(center, center, 2, center, center, 28);
+    grad.addColorStop(0, glowColor);
+    grad.addColorStop(0.45, glowColor);
+    grad.addColorStop(1, "rgba(0,0,0,0)");
+    sCtx.fillStyle = grad;
+    sCtx.beginPath();
+    sCtx.arc(center, center, 28, 0, Math.PI * 2);
+    sCtx.fill();
+
+    // Sharp star diamond center
+    sCtx.fillStyle = coreColor;
+    sCtx.beginPath();
+    sCtx.moveTo(center, center - outerRadius);
+    for (let i = 0; i < spikes; i++) {
+        let x = center + Math.cos(rot) * outerRadius;
+        let y = center + Math.sin(rot) * outerRadius;
+        sCtx.lineTo(x, y);
+        rot += step;
+
+        x = center + Math.cos(rot) * innerRadius;
+        y = center + Math.sin(rot) * innerRadius;
+        sCtx.lineTo(x, y);
+        rot += step;
+    }
+    sCtx.lineTo(center, center - outerRadius);
+    sCtx.closePath();
+    sCtx.fill();
+
+    return sprite;
+}
+
+const cyanSprite = createSparkleSprite("#ffffff", "rgba(0, 221, 255, 0.7)");
+const goldSprite = createSparkleSprite("#ffffff", "rgba(240, 192, 64, 0.7)");
 
 class SparkleParticle {
     constructor(ctx, canvas) {
-        this.ctx = ctx
-        this.canvas = canvas
+        this.ctx = ctx;
+        this.canvas = canvas;
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * 4 + 1;
@@ -34,7 +87,7 @@ class SparkleParticle {
         this.speedY = Math.random() * -0.8 - 0.2; // float upwards
         this.maxLife = Math.random() * 100 + 50; // duration
         this.life = this.maxLife;
-        this.color = Math.random() > 0.5 ? "rgba(0, 221, 255," : "rgba(240, 192, 64,"; // cyan vs gold
+        this.sprite = Math.random() > 0.5 ? cyanSprite : goldSprite;
     }
 
     update() {
@@ -51,41 +104,18 @@ class SparkleParticle {
     }
 
     draw() {
-        const alpha = Math.sin((this.life / this.maxLife) * Math.PI); // fade in/out
-        this.ctx.shadowBlur = this.size * 2;
-        this.ctx.shadowColor = this.color.includes("240") ? "#f0c040" : "#00ddff";
-        this.ctx.fillStyle = `${this.color}${alpha})`;
-        this.ctx.beginPath();
-
-        // Draw a diamond/sparkle star shape
-        const cx = this.x;
-        const cy = this.y;
-        const spikes = 4;
-        const outerRadius = this.size;
-        const innerRadius = this.size / 2.5;
-
-        let rot = Math.PI / 2 * 3;
-        let x = cx;
-        let y = cy;
-        let step = Math.PI / spikes;
-
-        this.ctx.beginPath();
-        this.ctx.moveTo(cx, cy - outerRadius);
-        for (let i = 0; i < spikes; i++) {
-            x = cx + Math.cos(rot) * outerRadius;
-            y = cy + Math.sin(rot) * outerRadius;
-            this.ctx.lineTo(x, y);
-            rot += step;
-
-            x = cx + Math.cos(rot) * innerRadius;
-            y = cy + Math.sin(rot) * innerRadius;
-            this.ctx.lineTo(x, y);
-            rot += step;
-        }
-        this.ctx.lineTo(cx, cy - outerRadius);
-        this.ctx.closePath();
-        this.ctx.fill();
-        this.ctx.shadowBlur = 0; // reset
+        const alpha = Math.sin((this.life / this.maxLife) * Math.PI);
+        if (alpha <= 0) return;
+        this.ctx.globalAlpha = alpha;
+        const drawSize = this.size * 6;
+        this.ctx.drawImage(
+            this.sprite,
+            this.x - drawSize / 2,
+            this.y - drawSize / 2,
+            drawSize,
+            drawSize
+        );
+        this.ctx.globalAlpha = 1;
     }
 }
 // --------------------------------------------------
@@ -285,16 +315,21 @@ const canvas = document.getElementById("sparkle-canvas");
 if (canvas) {
     const ctx = canvas.getContext("2d");
     let particles = [];
+    let animId = null;
 
+    let resizeTimer = null;
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
     resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resizeCanvas, 100);
+    });
 
     function initParticles() {
+        particles = [];
         for (let i = 0; i < 40; i++) {
             particles.push(new SparkleParticle(ctx, canvas));
         }
@@ -302,47 +337,39 @@ if (canvas) {
     initParticles();
 
     function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach((p, index) => {
-            p.update();
-            p.draw();
-            if (p.life <= 0) {
-                particles[index] = new SparkleParticle(ctx, canvas);
+        if (!document.hidden) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                p.update();
+                p.draw();
+                if (p.life <= 0) {
+                    particles[i] = new SparkleParticle(ctx, canvas);
+                }
             }
-        });
-        requestAnimationFrame(animateParticles);
+        }
+        animId = requestAnimationFrame(animateParticles);
     }
-    animateParticles();
+    animId = requestAnimationFrame(animateParticles);
 }
 
 // --------------------------------------------------
 // SOUND TRIGGERS & NAV BUTTONS HOVER/CLICK ACTIONS
 // --------------------------------------------------
 menuItems.forEach(menu => {
-    menu.addEventListener("mouseenter", () => {
-        if (hoverSound) {
-            hoverSound.currentTime = 0;
-            hoverSound.play().catch(e => console.log(e));
-        }
-    });
+    menu.addEventListener("mouseenter", () => playSfx(hoverSound));
 
     menu.addEventListener("click", () => {
         const targetScreenId = menu.getAttribute("data-screen");
         if (targetScreenId) {
             if (isTransitioning) return;
-            if (clickSound) {
-                clickSound.currentTime = 0;
-                clickSound.play().catch(e => console.log(e));
-            }
+            playSfx(clickSound);
             switchToScreen(targetScreenId);
         }
 
         const targetLink = menu.getAttribute("data-link");
         if (targetLink) {
-            if (clickSound) {
-                clickSound.currentTime = 0;
-                clickSound.play().catch(e => console.log(e));
-            }
+            playSfx(clickSound);
             window.open(targetLink, '_blank');
         }
     });
@@ -351,18 +378,10 @@ menuItems.forEach(menu => {
 // Setup back buttons across all subpages
 const backButtons = document.querySelectorAll(".p3-back-btn");
 backButtons.forEach(btn => {
-    btn.addEventListener("mouseenter", () => {
-        if (hoverSound) {
-            hoverSound.currentTime = 0;
-            hoverSound.play().catch(e => console.log(e));
-        }
-    });
+    btn.addEventListener("mouseenter", () => playSfx(hoverSound));
     btn.addEventListener("click", () => {
         if (isTransitioning) return;
-        if (exitSound) {
-            exitSound.currentTime = 0;
-            exitSound.play().catch(e => console.log(e));
-        }
+        playSfx(exitSound);
         switchToScreen("main-menu-screen");
     });
 });
@@ -379,8 +398,11 @@ function switchToScreen(id) {
     if (transitionOverlay) {
         isTransitioning = true;
         transitionOverlay.classList.remove("trigger-wipe");
-        void transitionOverlay.offsetWidth; // trigger reflow
-        transitionOverlay.classList.add("trigger-wipe");
+        
+        // Use requestAnimationFrame instead of forced layout reflow (void transitionOverlay.offsetWidth)
+        requestAnimationFrame(() => {
+            transitionOverlay.classList.add("trigger-wipe");
+        });
 
         setTimeout(() => {
             // Hide all screen nodes
@@ -389,12 +411,21 @@ function switchToScreen(id) {
                 s.classList.add("hidden");
             });
 
-            // Show current active loop state
+            // Pause background video decoding when away from main menu to save GPU & CPU
             if (id === "main-menu-screen") {
-                if (loop) loop.style.display = "block";
+                if (loop) {
+                    loop.style.display = "block";
+                    loop.play().catch(e => console.log(e));
+                }
             } else {
-                if (loop) loop.style.display = "none";
-                if (intro) intro.style.display = "none";
+                if (loop) {
+                    loop.pause();
+                    loop.style.display = "none";
+                }
+                if (intro) {
+                    intro.pause();
+                    intro.style.display = "none";
+                }
             }
 
             // Show selected screen node
@@ -410,8 +441,6 @@ function switchToScreen(id) {
     }
 }
 
-
-
 // Cards Pop-out interaction flow
 const cardWrappers = document.querySelectorAll(".card-wrapper");
 const popoutOverlay = document.getElementById("card-popout-overlay");
@@ -420,49 +449,50 @@ const popoutCategory = document.getElementById("popout-category-pill");
 const popoutSkillsList = document.getElementById("popout-skills-list");
 const cancelBtn = document.getElementById("popout-cancel-btn");
 const drawVal = document.getElementById("draw-val");
+const mainCardHolder = document.querySelector(".main-popout-card-holder");
+const numLeft = mainCardHolder ? mainCardHolder.querySelector(".top-left") : null;
+const numRight = mainCardHolder ? mainCardHolder.querySelector(".bottom-right") : null;
+const badgeColors = ["#ff4466", "#f0c040", "#00ddff", "#44dd66"];
 
 cardWrappers.forEach(card => {
-    card.addEventListener("click", () => {
-        if (clickSound) {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(e => console.log(e));
-        }
+    // Pre-cache attributes to avoid parsing JSON and querying DOM on every click
+    const imgEl = card.querySelector(".card");
+    const imgPath = imgEl ? imgEl.getAttribute("src") : "";
+    const badge = card.getAttribute("data-badge") || "";
+    const index = parseInt(card.getAttribute("data-index") || "0", 10);
+    const cornerNumEl = card.querySelector(".corner-num");
+    const cornerNum = cornerNumEl ? cornerNumEl.textContent : "";
+    let skills = [];
+    try {
+        skills = JSON.parse(card.getAttribute("data-skills") || "[]");
+    } catch {
+        skills = [];
+    }
 
-        const imgPath = card.querySelector(".card").getAttribute("src");
-        const category = card.getAttribute("data-category");
-        const badge = card.getAttribute("data-badge");
-        const skills = JSON.parse(card.getAttribute("data-skills"));
-        const index = parseInt(card.getAttribute("data-index"));
+    card.addEventListener("click", () => {
+        playSfx(clickSound);
 
         // Setup draw value & card numbers
         if (drawVal) drawVal.textContent = index + 1;
-        const mainCardHolder = document.querySelector(".main-popout-card-holder");
-        if (mainCardHolder) {
-            const numLeft = mainCardHolder.querySelector(".top-left");
-            const numRight = mainCardHolder.querySelector(".bottom-right");
-            const cornerNum = card.querySelector(".corner-num").textContent;
-            if (numLeft) numLeft.textContent = cornerNum;
-            if (numRight) numRight.textContent = cornerNum;
-        }
+        if (numLeft) numLeft.textContent = cornerNum;
+        if (numRight) numRight.textContent = cornerNum;
 
         // Fill out overlay values
         if (popoutImg) popoutImg.setAttribute("src", imgPath);
         if (popoutCategory) {
             popoutCategory.textContent = badge;
-            // customize badge colors dynamically to match standard cards
-            if (index === 0) popoutCategory.style.backgroundColor = "#ff4466";
-            if (index === 1) popoutCategory.style.backgroundColor = "#f0c040";
-            if (index === 2) popoutCategory.style.backgroundColor = "#00ddff";
-            if (index === 3) popoutCategory.style.backgroundColor = "#44dd66";
+            if (badgeColors[index]) popoutCategory.style.backgroundColor = badgeColors[index];
         }
 
         if (popoutSkillsList) {
             popoutSkillsList.innerHTML = "";
+            const fragment = document.createDocumentFragment();
             skills.forEach(skill => {
                 const li = document.createElement("li");
                 li.textContent = skill;
-                popoutSkillsList.appendChild(li);
+                fragment.appendChild(li);
             });
+            popoutSkillsList.appendChild(fragment);
         }
 
         // Show overlay with transition
@@ -472,10 +502,7 @@ cardWrappers.forEach(card => {
 
 if (cancelBtn) {
     cancelBtn.addEventListener("click", () => {
-        if (clickSound) {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(e => console.log(e));
-        }
+        playSfx(clickSound);
         if (popoutOverlay) popoutOverlay.classList.remove("active-popout");
     });
 }
@@ -484,10 +511,7 @@ if (cancelBtn) {
 if (popoutOverlay) {
     popoutOverlay.addEventListener("click", (e) => {
         if (e.target === popoutOverlay) {
-            if (clickSound) {
-                clickSound.currentTime = 0;
-                clickSound.play().catch(e => console.log(e));
-            }
+            playSfx(clickSound);
             popoutOverlay.classList.remove("active-popout");
         }
     });
@@ -509,15 +533,12 @@ const projVisitBtn = document.getElementById("proj-visit-btn");
 
 projectCards.forEach(pCard => {
     pCard.addEventListener("click", () => {
-        if (clickSound) {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(e => console.log(e));
-        }
+        playSfx(clickSound);
 
         const title = pCard.getAttribute("data-title");
         const tech = pCard.getAttribute("data-tech");
         const desc = pCard.getAttribute("data-desc");
-        const num = pCard.querySelector(".project-card-num").textContent;
+        const num = pCard.querySelector(".project-card-num")?.textContent || "";
         const link = pCard.getAttribute("data-link");
         const linkText = pCard.getAttribute("data-link-text");
 
@@ -534,10 +555,7 @@ projectCards.forEach(pCard => {
 
 if (projectCloseBtn) {
     projectCloseBtn.addEventListener("click", () => {
-        if (clickSound) {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(e => console.log(e));
-        }
+        playSfx(clickSound);
         if (projectOverlay) projectOverlay.classList.remove("active-popout");
     });
 }
@@ -545,10 +563,7 @@ if (projectCloseBtn) {
 if (projectOverlay) {
     projectOverlay.addEventListener("click", (e) => {
         if (e.target === projectOverlay) {
-            if (clickSound) {
-                clickSound.currentTime = 0;
-                clickSound.play().catch(e => console.log(e));
-            }
+            playSfx(clickSound);
             projectOverlay.classList.remove("active-popout");
         }
     });
@@ -566,56 +581,57 @@ const cardImg = document.getElementById("commu-card-img");
 
 let activeCommuIndex = 0;
 
+// Pre-cache item metadata to eliminate DOM queries and allocations on hover
+const commuData = Array.from(commuItems).map(item => ({
+    name: item.querySelector(".commu-platform-name")?.textContent || "",
+    username: item.getAttribute("data-username") || "",
+    desc: item.getAttribute("data-desc") || "",
+    link: item.getAttribute("data-link") || "",
+    bg: item.getAttribute("data-bg") || ""
+}));
+
 function updateCommuSelection(index) {
     if (index < 0 || index >= commuItems.length) return;
     
+    // De-activate previous active item only
+    if (commuItems[activeCommuIndex]) {
+        commuItems[activeCommuIndex].classList.remove("active-item");
+    }
+
     activeCommuIndex = index;
+    const item = commuItems[index];
+    const data = commuData[index];
+    if (!item || !data) return;
 
-    commuItems.forEach((item, idx) => {
-        if (idx === index) {
-            item.classList.add("active-item");
-            
-            const name = item.querySelector(".commu-platform-name").textContent;
-            const username = item.getAttribute("data-username");
-            const desc = item.getAttribute("data-desc");
-            const link = item.getAttribute("data-link");
-            const bg = item.getAttribute("data-bg");
+    item.classList.add("active-item");
 
-            if (detailName) detailName.textContent = name;
-            if (detailUsername) detailUsername.textContent = username;
-            if (detailDesc) detailDesc.textContent = desc;
-            if (actionBtn) actionBtn.setAttribute("href", link);
-            if (cardImg) cardImg.setAttribute("src", bg);
-        } else {
-            item.classList.remove("active-item");
-        }
-    });
+    if (detailName) detailName.textContent = data.name;
+    if (detailUsername) detailUsername.textContent = data.username;
+    if (detailDesc) detailDesc.textContent = data.desc;
+    if (actionBtn) actionBtn.setAttribute("href", data.link);
+    if (cardImg) cardImg.setAttribute("src", data.bg);
 }
 
 commuItems.forEach((item, index) => {
     item.addEventListener("mouseenter", () => {
         if (activeCommuIndex !== index) {
             updateCommuSelection(index);
-            if (hoverSound) {
-                hoverSound.currentTime = 0;
-                hoverSound.play().catch(e => console.log(e));
-            }
+            playSfx(hoverSound);
         }
     });
 
     item.addEventListener("click", () => {
-        if (clickSound) {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(e => console.log(e));
-        }
-        const link = item.getAttribute("data-link");
-        window.open(link, "_blank");
+        playSfx(clickSound);
+        const link = commuData[index]?.link || item.getAttribute("data-link");
+        if (link) window.open(link, "_blank");
     });
 });
 
 // --------------------------------------------------
 // GLOBAL KEYBOARD SHORTCUTS
 // --------------------------------------------------
+const contactMenu = document.getElementById("contact-menu");
+
 document.addEventListener("keydown", (e) => {
     if (document.activeElement && (
         document.activeElement.tagName === "INPUT" ||
@@ -625,7 +641,6 @@ document.addEventListener("keydown", (e) => {
         return;
     }
 
-    const contactMenu = document.getElementById("contact-menu");
     const isContactActive = contactMenu && contactMenu.classList.contains("active");
 
     if (isContactActive) {
@@ -633,29 +648,17 @@ document.addEventListener("keydown", (e) => {
             e.preventDefault();
             let prevIndex = (activeCommuIndex - 1 + commuItems.length) % commuItems.length;
             updateCommuSelection(prevIndex);
-            if (hoverSound) {
-                hoverSound.currentTime = 0;
-                hoverSound.play().catch(err => console.log(err));
-            }
+            playSfx(hoverSound);
         } else if (e.key === "ArrowDown") {
             e.preventDefault();
             let nextIndex = (activeCommuIndex + 1) % commuItems.length;
             updateCommuSelection(nextIndex);
-            if (hoverSound) {
-                hoverSound.currentTime = 0;
-                hoverSound.play().catch(err => console.log(err));
-            }
+            playSfx(hoverSound);
         } else if (e.key === "Enter") {
             e.preventDefault();
-            if (clickSound) {
-                clickSound.currentTime = 0;
-                clickSound.play().catch(err => console.log(err));
-            }
-            const activeItem = commuItems[activeCommuIndex];
-            if (activeItem) {
-                const link = activeItem.getAttribute("data-link");
-                window.open(link, "_blank");
-            }
+            playSfx(clickSound);
+            const link = commuData[activeCommuIndex]?.link;
+            if (link) window.open(link, "_blank");
         }
     }
 
@@ -664,19 +667,13 @@ document.addEventListener("keydown", (e) => {
         let actionTriggered = false;
 
         if (popoutOverlay && popoutOverlay.classList.contains("active-popout")) {
-            if (clickSound) {
-                clickSound.currentTime = 0;
-                clickSound.play().catch(err => console.log(err));
-            }
+            playSfx(clickSound);
             popoutOverlay.classList.remove("active-popout");
             actionTriggered = true;
         }
 
         if (projectOverlay && projectOverlay.classList.contains("active-popout")) {
-            if (clickSound) {
-                clickSound.currentTime = 0;
-                clickSound.play().catch(err => console.log(err));
-            }
+            playSfx(clickSound);
             projectOverlay.classList.remove("active-popout");
             actionTriggered = true;
         }
@@ -684,10 +681,7 @@ document.addEventListener("keydown", (e) => {
         if (!actionTriggered) {
             const activeScreen = document.querySelector(".screen.active");
             if (activeScreen && activeScreen.id !== "main-menu-screen") {
-                if (exitSound) {
-                    exitSound.currentTime = 0;
-                    exitSound.play().catch(err => console.log(err));
-                }
+                playSfx(exitSound);
                 switchToScreen("main-menu-screen");
             }
         }
