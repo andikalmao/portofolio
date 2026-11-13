@@ -398,11 +398,8 @@ function switchToScreen(id) {
     if (transitionOverlay) {
         isTransitioning = true;
         transitionOverlay.classList.remove("trigger-wipe");
-        
-        // Use requestAnimationFrame instead of forced layout reflow (void transitionOverlay.offsetWidth)
-        requestAnimationFrame(() => {
-            transitionOverlay.classList.add("trigger-wipe");
-        });
+        void transitionOverlay.offsetWidth; // Force layout reflow to guarantee CSS animation restarts
+        transitionOverlay.classList.add("trigger-wipe");
 
         setTimeout(() => {
             // Hide all screen nodes
@@ -432,6 +429,9 @@ function switchToScreen(id) {
             if (target) {
                 target.classList.remove("hidden");
                 target.classList.add("active");
+                if (id === "contact-menu") {
+                    updateCommuSelection(activeCommuIndex);
+                }
             }
         }, 500); // exactly at mid point of wipe transition
 
@@ -550,8 +550,10 @@ projectCards.forEach(pCard => {
         if (projDetailTitle) projDetailTitle.textContent = title;
         if (projDetailTech) projDetailTech.textContent = tech;
         if (projDetailDesc) projDetailDesc.textContent = desc;
-        if (projVisitLink) projVisitLink.setAttribute("href", link || "#");
-        if (projVisitBtn) projVisitBtn.textContent = linkText || "VISIT SITE ↗";
+        if (projVisitLink) {
+            projVisitLink.setAttribute("href", link || "#");
+            projVisitLink.textContent = linkText || "VISIT SITE ↗";
+        }
 
         if (projectOverlay) projectOverlay.classList.add("active-popout");
     });
@@ -631,6 +633,9 @@ commuItems.forEach((item, index) => {
     });
 });
 
+// Ensure initial commu display is in sync on script load
+updateCommuSelection(0);
+
 // --------------------------------------------------
 // GLOBAL KEYBOARD SHORTCUTS
 // --------------------------------------------------
@@ -658,15 +663,42 @@ document.addEventListener("keydown", (e) => {
             let nextIndex = (activeCommuIndex + 1) % commuItems.length;
             updateCommuSelection(nextIndex);
             playSfx(hoverSound);
-        } else if (e.key === "Enter") {
+        }
+    }
+
+    // Confirm actions (A key or Enter key matching P3R UI hints)
+    if (e.key === "a" || e.key === "A" || e.key === "Enter") {
+        if (isTransitioning) return;
+
+        // In Project detail popout: A/Enter visits the project link
+        if (projectOverlay && projectOverlay.classList.contains("active-popout")) {
+            e.preventDefault();
+            playSfx(clickSound);
+            const link = projVisitLink ? projVisitLink.getAttribute("href") : null;
+            if (link && link !== "#") window.open(link, "_blank");
+            return;
+        }
+
+        // In Skills card popout: A/Enter confirms and closes
+        if (popoutOverlay && popoutOverlay.classList.contains("active-popout")) {
+            e.preventDefault();
+            playSfx(clickSound);
+            popoutOverlay.classList.remove("active-popout");
+            return;
+        }
+
+        // In Contact / Social Link menu: A/Enter establishes the contract (opens link)
+        if (isContactActive) {
             e.preventDefault();
             playSfx(clickSound);
             const link = commuData[activeCommuIndex]?.link;
             if (link) window.open(link, "_blank");
+            return;
         }
     }
 
-    if (e.key === "b" || e.key === "B") {
+    // Cancel / Back actions (B key or Escape key)
+    if (e.key === "b" || e.key === "B" || e.key === "Escape") {
         if (isTransitioning) return;
         let actionTriggered = false;
 

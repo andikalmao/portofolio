@@ -1346,6 +1346,10 @@ ul {
     cursor: pointer;
     transform: skewX(-12deg);
     transition: var(--transition-bounce);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .project-visit-btn {
@@ -2167,6 +2171,33 @@ ul {
    -------------------------------------------------- */
 @media (max-width: 1024px) {
 
+    .screen:not(#main-menu-screen) {
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .screen::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .screen::-webkit-scrollbar-track {
+        background: rgba(5, 5, 24, 0.6);
+    }
+
+    .screen::-webkit-scrollbar-thumb {
+        background: var(--accent-cyan);
+        border-radius: 3px;
+    }
+
+    .subpage-container,
+    .commu-container {
+        height: auto;
+        min-height: 100%;
+        overflow: visible;
+        padding-bottom: 6rem;
+    }
+
     .status-screen-layout {
         flex-direction: column;
         gap: 30px;
@@ -2182,6 +2213,13 @@ ul {
 }
 
 @media (max-width: 768px) {
+    .p3-back-btn {
+        top: 1rem;
+        right: 1rem;
+        font-size: 0.95rem;
+        padding: 5px 14px;
+    }
+
     .nav {
         left: 50%;
         top: 60%;
