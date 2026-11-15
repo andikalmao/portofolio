@@ -429,6 +429,9 @@ function switchToScreen(id) {
             if (target) {
                 target.classList.remove("hidden");
                 target.classList.add("active");
+                if (id === "projects-menu") {
+                    updateQuestSelection(activeQuestIndex);
+                }
                 if (id === "contact-menu") {
                     updateCommuSelection(activeCommuIndex);
                 }
@@ -501,6 +504,7 @@ cardWrappers.forEach(card => {
 
         // Show overlay with transition
         if (popoutOverlay) popoutOverlay.classList.add("active-popout");
+        if (musicPlayer) musicPlayer.classList.add("slide-out");
     });
 });
 
@@ -508,6 +512,7 @@ if (cancelBtn) {
     cancelBtn.addEventListener("click", () => {
         playSfx(clickSound);
         if (popoutOverlay) popoutOverlay.classList.remove("active-popout");
+        if (musicPlayer) musicPlayer.classList.remove("slide-out");
     });
 }
 
@@ -517,63 +522,134 @@ if (popoutOverlay) {
         if (e.target === popoutOverlay) {
             playSfx(clickSound);
             popoutOverlay.classList.remove("active-popout");
+            if (musicPlayer) musicPlayer.classList.remove("slide-out");
         }
     });
 }
 
 // --------------------------------------------------
-// PAGE 3: PROJECTS DETAILED INTERACTION FLOW
+// PAGE 3: REQUESTS / PROJECTS INTERACTION FLOW (ELIZABETH QUEST BOARD)
 // --------------------------------------------------
-const projectCards = document.querySelectorAll(".project-card");
-const projectOverlay = document.getElementById("project-popout-overlay");
-const projectCloseBtn = document.getElementById("proj-close-btn");
+const questItems = document.querySelectorAll(".quest-item");
+const questCounter = document.getElementById("quest-counter");
+const questHudNum = document.getElementById("quest-hud-num");
+const questHudTitle = document.getElementById("quest-hud-title");
+const questHudClient = document.getElementById("quest-hud-client");
+const questHudBadge = document.getElementById("quest-hud-badge");
+const questHudImg = document.getElementById("quest-hud-img");
+const questHudDesc = document.getElementById("quest-hud-desc");
+const questHudTech = document.getElementById("quest-hud-tech");
+const questActionLink = document.getElementById("quest-action-link");
+const questActionText = document.getElementById("quest-action-text");
 
-const projDetailNum = document.getElementById("proj-detail-num");
-const projDetailTitle = document.getElementById("proj-detail-title");
-const projDetailTech = document.getElementById("proj-detail-tech");
-const projDetailDesc = document.getElementById("proj-detail-desc");
-const projVisitLink = document.getElementById("proj-visit-link");
-const projVisitBtn = document.getElementById("proj-visit-btn");
+let activeQuestIndex = 0;
 
-projectCards.forEach(pCard => {
-    pCard.addEventListener("click", () => {
-        playSfx(clickSound);
+// Pre-cache quest data for super responsive hover/key transitions
+const questData = Array.from(questItems).map(item => {
+    let stack = [];
+    try {
+        stack = JSON.parse(item.getAttribute("data-stack") || "[]");
+    } catch {
+        stack = [];
+    }
+    return {
+        title: item.getAttribute("data-title") || "",
+        num: item.getAttribute("data-num") || "01",
+        client: item.getAttribute("data-client") || "",
+        category: item.getAttribute("data-category") || "",
+        badge: item.getAttribute("data-badge") || "CLEARED",
+        badgeColor: item.getAttribute("data-badge-color") || "#00ddff",
+        stars: item.getAttribute("data-stars") || "★★★★★",
+        stack: stack,
+        desc: item.getAttribute("data-desc") || "",
+        img: item.getAttribute("data-img") || "",
+        link: item.getAttribute("data-link") || "",
+        linkText: item.getAttribute("data-link-text") || "VISIT SITE ↗",
+        btnType: item.getAttribute("data-btn-type") || "primary"
+    };
+});
 
-        const title = pCard.getAttribute("data-title");
-        const tech = pCard.getAttribute("data-tech");
-        const desc = pCard.getAttribute("data-desc");
-        const num = pCard.querySelector(".project-card-num")?.textContent || "";
-        const link = pCard.getAttribute("data-link");
-        const linkText = pCard.getAttribute("data-link-text");
+function updateQuestSelection(index) {
+    if (index < 0 || index >= questItems.length) return;
 
-        if (projDetailNum) projDetailNum.textContent = num;
-        if (projDetailTitle) projDetailTitle.textContent = title;
-        if (projDetailTech) projDetailTech.textContent = tech;
-        if (projDetailDesc) projDetailDesc.textContent = desc;
-        if (projVisitLink) {
-            projVisitLink.setAttribute("href", link || "#");
-            projVisitLink.textContent = linkText || "VISIT SITE ↗";
+    if (questItems[activeQuestIndex]) {
+        questItems[activeQuestIndex].classList.remove("active-quest");
+    }
+
+    activeQuestIndex = index;
+    const item = questItems[index];
+    const data = questData[index];
+    if (!item || !data) return;
+
+    item.classList.add("active-quest");
+
+    if (questCounter) questCounter.textContent = `${data.num} / 0${questItems.length}`;
+    if (questHudNum) questHudNum.textContent = `REQ // ${data.num}`;
+    if (questHudTitle) questHudTitle.textContent = data.title;
+    if (questHudClient) questHudClient.textContent = `Client: ${data.client}`;
+    
+    if (questHudBadge) {
+        questHudBadge.textContent = data.badge;
+        questHudBadge.style.borderColor = data.badgeColor;
+        questHudBadge.style.color = data.badgeColor;
+    }
+
+    if (questHudImg) {
+        questHudImg.setAttribute("src", data.img);
+        questHudImg.setAttribute("alt", data.title);
+    }
+
+    if (questHudDesc) questHudDesc.textContent = data.desc;
+
+    if (questHudTech) {
+        questHudTech.innerHTML = "";
+        const frag = document.createDocumentFragment();
+        data.stack.forEach(tech => {
+            const span = document.createElement("span");
+            span.className = "tech-pill";
+            span.textContent = tech;
+            frag.appendChild(span);
+        });
+        questHudTech.appendChild(frag);
+    }
+
+    if (questActionLink && questActionText) {
+        questActionText.textContent = data.linkText;
+        questActionLink.className = `quest-action-btn ${data.btnType}`;
+        
+        if (data.btnType === "restricted" || !data.link) {
+            questActionLink.removeAttribute("href");
+            questActionLink.removeAttribute("target");
+            questActionLink.style.pointerEvents = "none";
+            questActionLink.style.opacity = "0.75";
+        } else {
+            questActionLink.setAttribute("href", data.link);
+            questActionLink.setAttribute("target", "_blank");
+            questActionLink.style.pointerEvents = "auto";
+            questActionLink.style.opacity = "1";
         }
+    }
+}
 
-        if (projectOverlay) projectOverlay.classList.add("active-popout");
+questItems.forEach((item, index) => {
+    item.addEventListener("mouseenter", () => {
+        if (activeQuestIndex !== index) {
+            updateQuestSelection(index);
+            playSfx(hoverSound);
+        }
+    });
+
+    item.addEventListener("click", () => {
+        playSfx(clickSound);
+        const data = questData[index];
+        if (data && data.link && data.btnType !== "restricted") {
+            window.open(data.link, "_blank");
+        }
     });
 });
 
-if (projectCloseBtn) {
-    projectCloseBtn.addEventListener("click", () => {
-        playSfx(clickSound);
-        if (projectOverlay) projectOverlay.classList.remove("active-popout");
-    });
-}
-
-if (projectOverlay) {
-    projectOverlay.addEventListener("click", (e) => {
-        if (e.target === projectOverlay) {
-            playSfx(clickSound);
-            projectOverlay.classList.remove("active-popout");
-        }
-    });
-}
+// Initial quest selection
+updateQuestSelection(0);
 
 // --------------------------------------------------
 // COMMU MENU INTERACTION LOGIC
@@ -651,6 +727,22 @@ document.addEventListener("keydown", (e) => {
     }
 
     const isContactActive = contactMenu && contactMenu.classList.contains("active");
+    const projectsMenu = document.getElementById("projects-menu");
+    const isProjectsActive = projectsMenu && projectsMenu.classList.contains("active");
+
+    if (isProjectsActive) {
+        if (e.key === "ArrowUp") {
+            e.preventDefault();
+            let prevIndex = (activeQuestIndex - 1 + questItems.length) % questItems.length;
+            updateQuestSelection(prevIndex);
+            playSfx(hoverSound);
+        } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            let nextIndex = (activeQuestIndex + 1) % questItems.length;
+            updateQuestSelection(nextIndex);
+            playSfx(hoverSound);
+        }
+    }
 
     if (isContactActive) {
         if (e.key === "ArrowUp") {
@@ -670,12 +762,14 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "a" || e.key === "A" || e.key === "Enter") {
         if (isTransitioning) return;
 
-        // In Project detail popout: A/Enter visits the project link
-        if (projectOverlay && projectOverlay.classList.contains("active-popout")) {
+        // In Project quest menu: A/Enter launches the project link
+        if (isProjectsActive) {
             e.preventDefault();
             playSfx(clickSound);
-            const link = projVisitLink ? projVisitLink.getAttribute("href") : null;
-            if (link && link !== "#") window.open(link, "_blank");
+            const data = questData[activeQuestIndex];
+            if (data && data.link && data.btnType !== "restricted") {
+                window.open(data.link, "_blank");
+            }
             return;
         }
 
@@ -684,6 +778,7 @@ document.addEventListener("keydown", (e) => {
             e.preventDefault();
             playSfx(clickSound);
             popoutOverlay.classList.remove("active-popout");
+            if (musicPlayer) musicPlayer.classList.remove("slide-out");
             return;
         }
 
@@ -705,12 +800,14 @@ document.addEventListener("keydown", (e) => {
         if (popoutOverlay && popoutOverlay.classList.contains("active-popout")) {
             playSfx(clickSound);
             popoutOverlay.classList.remove("active-popout");
+            if (musicPlayer) musicPlayer.classList.remove("slide-out");
             actionTriggered = true;
         }
 
         if (projectOverlay && projectOverlay.classList.contains("active-popout")) {
             playSfx(clickSound);
             projectOverlay.classList.remove("active-popout");
+            if (musicPlayer) musicPlayer.classList.remove("slide-out");
             actionTriggered = true;
         }
 

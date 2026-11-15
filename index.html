@@ -223,48 +223,258 @@
 
         <!--  PROJECTS PAGE -->
         <section class="screen hidden" id="projects-menu">
-            <div class="subpage-container">
+            <div class="game-background">
+                <div class="angled-shape shape-1"></div>
+                <div class="angled-shape shape-2"></div>
+            </div>
+            <div class="subpage-container quest-container">
                 <button class="p3-back-btn"><span>◀</span> BACK</button>
-                <h1 class="subpage-title italic-title">PROJECTS</h1>
+                <div class="quest-header-wrap">
+                    <h1 class="subpage-title italic-title">REQUESTS</h1>
+                    <span class="quest-subtitle">ELIZABETH'S OPERATION LOG // PROTOCOL 2026</span>
+                </div>
 
-                <div class="projects-grid">
-                    <!-- Project 1 -->
-                    <div class="project-card" data-title="listing" data-tech="HTML / CSS / JS"
-                        data-desc="simple listing, one of my first web project"
-                        data-link="https://listing-plum.vercel.app/" data-link-text="VISIT SITE ↗">
-                        <div class="project-card-slanted-bg"></div>
-                        <span class="project-card-num">01</span>
-                        <h3 class="project-card-title">Listing</h3>
-                        <p class="project-card-tech">JavaScript</p>
-                        <div class="project-card-sparkle"></div>
+                <div class="quest-layout">
+                    <!-- Left: Quest Mission List -->
+                    <div class="quest-left-panel">
+                        <div class="quest-list-header">
+                            <span class="quest-list-title">MISSION DIRECTORY</span>
+                            <span class="quest-counter" id="quest-counter">01 / 06</span>
+                        </div>
+                        <div class="quest-list" id="quest-list">
+                            <!-- Mission 1: UPK Poltekkes -->
+                            <div class="quest-item active-quest" data-index="0"
+                                data-title="UPK Poltekkes Medan"
+                                data-num="01"
+                                data-client="Poltekkes Kemenkes Medan"
+                                data-category="Enterprise & Healthcare"
+                                data-badge="CLEARED"
+                                data-badge-color="#00ddff"
+                                data-stars="★★★★★"
+                                data-stack='["Laravel", "PHP", "MySQL", "Tailwind CSS", "Blade"]'
+                                data-desc="Sistem informasi terpadu pengelolaan sumber daya manusia dan pelatihan kesehatan yang efisien, transparan, dan akuntabel untuk seluruh sivitas akademika dan masyarakat umum."
+                                data-img="./assets/projects/upk.jpg"
+                                data-link="https://upk.poltekkes-medan.ac.id/"
+                                data-link-text="VISIT LIVE SITE ↗"
+                                data-btn-type="primary">
+                                <div class="quest-item-glow"></div>
+                                <div class="quest-item-badge-wrap">
+                                    <span class="quest-badge cleared">CLEARED</span>
+                                    <span class="quest-stars">★★★★★</span>
+                                </div>
+                                <div class="quest-item-main">
+                                    <span class="quest-item-num">01</span>
+                                    <div class="quest-item-text">
+                                        <h3 class="quest-item-title">UPK Poltekkes Medan</h3>
+                                        <span class="quest-item-sub">Health Training & Information Portal</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mission 2: SDM Poltekkes -->
+                            <div class="quest-item" data-index="1"
+                                data-title="Pusat Informasi Kepegawaian (SDM)"
+                                data-num="02"
+                                data-client="Poltekkes Kemenkes Medan"
+                                data-category="HR & Public Governance"
+                                data-badge="CLEARED"
+                                data-badge-color="#00ddff"
+                                data-stars="★★★★★"
+                                data-stack='["Laravel", "PHP", "Tailwind CSS", "MySQL", "Chart.js"]'
+                                data-desc="Sistem informasi terpadu yang mengelola publikasi regulasi, memfasilitasi informasi layanan administrasi kepegawaian, menyampaikan pengumuman resmi kedinasan, serta menyajikan visualisasi data statistik persebaran SDM (PNS & PPPK) secara transparan dan akuntabel."
+                                data-img="./assets/projects/sdm.jpg"
+                                data-link="https://sdm.poltekkes-medan.ac.id/"
+                                data-link-text="VISIT LIVE SITE ↗"
+                                data-btn-type="primary">
+                                <div class="quest-item-glow"></div>
+                                <div class="quest-item-badge-wrap">
+                                    <span class="quest-badge cleared">CLEARED</span>
+                                    <span class="quest-stars">★★★★★</span>
+                                </div>
+                                <div class="quest-item-main">
+                                    <span class="quest-item-num">02</span>
+                                    <div class="quest-item-text">
+                                        <h3 class="quest-item-title">Pusat Informasi Kepegawaian</h3>
+                                        <span class="quest-item-sub">Staffing Portal & Analytics</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mission 3: BIOS Poltekkes -->
+                            <div class="quest-item" data-index="2"
+                                data-title="BIOS Poltekkes Medan"
+                                data-num="03"
+                                data-client="Kemenkeu BLU / Poltekkes Medan"
+                                data-category="Internal Financial Platform"
+                                data-badge="CONFIDENTIAL"
+                                data-badge-color="#ff4466"
+                                data-stars="★★★★★"
+                                data-stack='["Laravel", "PHP", "MySQL", "Cron Scheduler", "BLU API"]'
+                                data-desc="Platform manajemen dan sinkronisasi data Badan Layanan Umum (BLU) Poltekkes Kemenkes Medan ke sistem BIOS Kemenkeu. Memfasilitasi pencatatan data keuangan maupun operasional kampus, sekaligus menyediakan fitur penjadwalan otomatis untuk pengiriman dan verifikasi data transaksi berkala."
+                                data-img="./assets/projects/bios.jpg"
+                                data-link=""
+                                data-link-text="INTERNAL BLU SYSTEM 🔒"
+                                data-btn-type="restricted">
+                                <div class="quest-item-glow"></div>
+                                <div class="quest-item-badge-wrap">
+                                    <span class="quest-badge confidential">CONFIDENTIAL</span>
+                                    <span class="quest-stars">★★★★★</span>
+                                </div>
+                                <div class="quest-item-main">
+                                    <span class="quest-item-num">03</span>
+                                    <div class="quest-item-text">
+                                        <h3 class="quest-item-title">BIOS Poltekkes Medan</h3>
+                                        <span class="quest-item-sub">BLU Data Sync & Scheduling</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mission 4: VS Code Lyrics Sidebar -->
+                            <div class="quest-item" data-index="3"
+                                data-title="Media Player Sidebar for VS Code"
+                                data-num="04"
+                                data-client="Open Source Community"
+                                data-category="Developer Tool / Extension"
+                                data-badge="EXTENSION"
+                                data-badge-color="#f0c040"
+                                data-stars="★★★★★"
+                                data-stack='["TypeScript", "VS Code Extension API", "Node.js", "Webview CSS"]'
+                                data-desc="A high-fidelity media player sidebar inside Visual Studio Code with Universal Windows Media Detection, real-time synchronized scrolling lyrics, HD album art rendering, and native playback controls."
+                                data-img="./assets/projects/lyrics_vscode.jpg"
+                                data-link="https://github.com/andikalmao/lyrics-sidebar-extension-for-vscode"
+                                data-link-text="GITHUB REPO ↗"
+                                data-btn-type="github">
+                                <div class="quest-item-glow"></div>
+                                <div class="quest-item-badge-wrap">
+                                    <span class="quest-badge extension">EXTENSION</span>
+                                    <span class="quest-stars">★★★★★</span>
+                                </div>
+                                <div class="quest-item-main">
+                                    <span class="quest-item-num">04</span>
+                                    <div class="quest-item-text">
+                                        <h3 class="quest-item-title">VS Code Lyrics Sidebar</h3>
+                                        <span class="quest-item-sub">Music Player & Synced Lyrics Extension</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mission 5: Nusantara News -->
+                            <div class="quest-item" data-index="4"
+                                data-title="Nusantara News Portal"
+                                data-num="05"
+                                data-client="Personal / Open Source"
+                                data-category="Web Application & CMS"
+                                data-badge="OPEN SOURCE"
+                                data-badge-color="#f0c040"
+                                data-stars="★★★★☆"
+                                data-stack='["Laravel", "Tailwind CSS", "PostgreSQL", "Blade"]'
+                                data-desc="A comprehensive news publication platform designed for regional and national updates across Nusantara, complete with category management, curated articles, and PostgreSQL storage."
+                                data-img="./assets/projects/nusantara_news.jpg"
+                                data-link="https://github.com/andikalmao/nusantara-news"
+                                data-link-text="GITHUB REPO ↗"
+                                data-btn-type="github">
+                                <div class="quest-item-glow"></div>
+                                <div class="quest-item-badge-wrap">
+                                    <span class="quest-badge open-source">OPEN SOURCE</span>
+                                    <span class="quest-stars">★★★★☆</span>
+                                </div>
+                                <div class="quest-item-main">
+                                    <span class="quest-item-num">05</span>
+                                    <div class="quest-item-text">
+                                        <h3 class="quest-item-title">Nusantara News</h3>
+                                        <span class="quest-item-sub">Fullstack Laravel & PostgreSQL</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mission 6: Listing Plum -->
+                            <div class="quest-item" data-index="5"
+                                data-title="Listing Plum"
+                                data-num="06"
+                                data-client="Frontend Prototype"
+                                data-category="Web Interface"
+                                data-badge="DEPLOYED"
+                                data-badge-color="#44dd66"
+                                data-stars="★★★☆☆"
+                                data-stack='["HTML5", "Modern CSS", "JavaScript"]'
+                                data-desc="A lightweight and responsive web listing interface without a heavy database overhead, showcasing pure frontend fundamentals and seamless component composition."
+                                data-img="./assets/projects/listing.jpg"
+                                data-link="https://listing-plum.vercel.app/"
+                                data-link-text="VISIT SITE ↗"
+                                data-btn-type="primary">
+                                <div class="quest-item-glow"></div>
+                                <div class="quest-item-badge-wrap">
+                                    <span class="quest-badge deployed">DEPLOYED</span>
+                                    <span class="quest-stars">★★★☆☆</span>
+                                </div>
+                                <div class="quest-item-main">
+                                    <span class="quest-item-num">06</span>
+                                    <div class="quest-item-text">
+                                        <h3 class="quest-item-title">Listing Plum</h3>
+                                        <span class="quest-item-sub">Interactive Directory Showcase</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Project 2 -->
-                    <div class="project-card" data-title="nusantara-news" data-tech="laravel / tailwind / PostgreSQL"
-                        data-desc="A news website for nusantara (check my github)"
-                        data-link="https://github.com/andikalmao/nusantara-news" data-link-text="GITHUB ↗">
-                        <div class="project-card-slanted-bg"></div>
-                        <span class="project-card-num">02</span>
-                        <h3 class="project-card-title">Nusantara News</h3>
-                        <p class="project-card-tech">Laravel / Tailwind / PostgreSQL</p>
-                        <div class="project-card-sparkle"></div>
+                    <!-- Right: Operation Briefing HUD -->
+                    <div class="quest-right-panel">
+                        <div class="quest-hud-card">
+                            <div class="quest-hud-top">
+                                <div class="quest-hud-header">
+                                    <span class="quest-hud-req-label">REQUEST DETAILS</span>
+                                    <span class="quest-hud-num" id="quest-hud-num">REQ // 01</span>
+                                </div>
+                                <h2 class="quest-hud-title" id="quest-hud-title">UPK Poltekkes Medan</h2>
+                                <div class="quest-hud-meta">
+                                    <span class="quest-hud-client" id="quest-hud-client">Client: Poltekkes Kemenkes Medan</span>
+                                    <span class="quest-hud-badge" id="quest-hud-badge">CLEARED</span>
+                                </div>
+                            </div>
+
+                            <!-- Slanted Screenshot Frame -->
+                            <div class="quest-preview-frame">
+                                <div class="quest-preview-scanline"></div>
+                                <img src="./assets/projects/upk.jpg" alt="Mission Screenshot" id="quest-hud-img" class="quest-preview-img">
+                                <div class="quest-preview-overlay-tag">OPERATIONAL PREVIEW</div>
+                            </div>
+
+                            <div class="quest-hud-body">
+                                <div class="quest-objective-block">
+                                    <span class="quest-section-tag">OPERATION OBJECTIVE</span>
+                                    <p class="quest-hud-desc" id="quest-hud-desc">
+                                        Sistem informasi terpadu pengelolaan sumber daya manusia dan pelatihan kesehatan yang efisien, transparan, dan akuntabel untuk seluruh sivitas akademika dan masyarakat umum.
+                                    </p>
+                                </div>
+
+                                <div class="quest-tech-block">
+                                    <span class="quest-section-tag">TECH ARSENAL</span>
+                                    <div class="quest-tech-pills" id="quest-hud-tech">
+                                        <span class="tech-pill">Laravel</span>
+                                        <span class="tech-pill">PHP</span>
+                                        <span class="tech-pill">MySQL</span>
+                                        <span class="tech-pill">Tailwind CSS</span>
+                                    </div>
+                                </div>
+
+                                <div class="quest-action-block">
+                                    <a href="https://upk.poltekkes-medan.ac.id/" target="_blank" class="quest-action-btn primary" id="quest-action-link">
+                                        <span id="quest-action-text">VISIT LIVE SITE ↗</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Project Details  -->
-            <div id="project-popout-overlay" class="card-popout-overlay">
-                <div class="popout-background-glow"></div>
-                <div class="project-details-box">
-                    <h2 class="project-details-num" id="proj-detail-num">01</h2>
-                    <h1 class="project-details-title" id="proj-detail-title">listing</h1>
-                    <div class="popout-badge-pill" id="proj-detail-tech"
-                        style="background:#f0c040; color:black; font-weight:800;">HTML / CSS / JS</div>
-                    <p class="project-details-desc" id="proj-detail-desc">A simple listing, one of my first web project.</p>
-                    <div class="project-details-controls">
-                        <a href="https://listing-plum.vercel.app/" target="_blank" id="proj-visit-link"
-                            class="project-visit-btn">VISIT SITE ↗</a>
-                        <button class="project-close-btn" id="proj-close-btn">CLOSE Ⓑ</button>
+                <!-- Bottom navigation guides -->
+                <div class="quest-guide-hint">
+                    <span class="guide-prompt">依頼を選択してください / Select Request to Inspect</span>
+                    <div class="guide-controls">
+                        <span class="hint-item"><span class="hint-btn">▲▼</span> Select Mission</span>
+                        <span class="hint-item"><span class="hint-btn">A</span> Launch Contract</span>
+                        <span class="hint-item"><span class="hint-btn">B</span> Return</span>
                     </div>
                 </div>
             </div>
